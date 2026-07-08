@@ -13,6 +13,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   scrape:
@@ -36,3 +38,18 @@ jobs:
           git add data.json legets.db || true
           git commit -m "chore: data refresh ($(date -u +%Y-%m-%d))" || echo "no changes"
           git push || echo "nothing to push"
+
+  # Runs automatically right after a successful scrape, in the SAME workflow —
+  # this sidesteps GitHub's rule that bot-pushed commits don't trigger other
+  # workflows. No more manual "Run Deploy Site" needed after a scrape.
+  deploy-pages:
+    needs: scrape
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main   # pick up the just-pushed commit, not the pre-scrape checkout
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - uses: actions/deploy-pages@v4
