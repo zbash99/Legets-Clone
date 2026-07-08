@@ -31,7 +31,8 @@ a{color:inherit;text-decoration:none}.app{display:flex;min-height:100vh}
 .pulse{background:var(--brand-l);border:1px solid var(--brand);border-radius:11px;padding:14px 18px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;gap:14px}
 .pulse .lbl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--brand-d)}.pulse .txt{font-size:14px;margin-top:3px}.pulse .ago{font-size:12px;color:var(--ink2);white-space:nowrap;display:flex;align-items:center;gap:6px}
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:22px}
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 17px;box-shadow:var(--shadow)}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 17px;box-shadow:var(--shadow);transition:border-color .12s,transform .12s}
+.stat[style*="cursor:pointer"]:hover{border-color:var(--brand);transform:translateY(-1px)}
 .stat .ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:11px}.stat .ico svg{width:17px;height:17px}
 .stat .n{font-size:27px;font-weight:700;line-height:1}.stat .l{font-size:13px;font-weight:600;margin-top:6px}.stat .s{font-size:11.5px;color:var(--ink3);margin-top:2px}
 .ico-amber{background:var(--amber-l);color:var(--amber)}.ico-brand{background:var(--brand-l);color:var(--brand-d)}.ico-red{background:var(--red-l);color:var(--red)}.ico-purple{background:var(--purple-l);color:var(--purple)}.ico-blue{background:var(--blue-l);color:var(--blue)}
@@ -58,6 +59,8 @@ td{padding:11px;border-bottom:1px solid var(--line);font-size:13px}tbody tr:hove
 .disclaimer{font-size:11.5px;color:var(--ink3);margin-top:16px;padding:11px 14px;background:var(--bg);border-radius:8px;line-height:1.5}
 @media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}.grid2{grid-template-columns:1fr}.state-grid,.cat-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 </head>
 <body>
 <div class="app">
@@ -180,14 +183,14 @@ function vDash(){
   const high=BILLS.filter(b=>b.impact>=7).length;
   const states=[...new Set(BILLS.map(b=>b.st))].length;
   const cats={};BILLS.forEach(b=>cats[b.cat]=(cats[b.cat]||0)+1);
-  const stat=(ic,cls,n,l,sub)=>`<div class="stat"><div class="ico ${cls}">${ic}</div><div class="n">${n}</div><div class="l">${l}</div><div class="s">${sub}</div></div>`;
+  const stat=(ic,cls,n,l,sub,onclick)=>`<div class="stat" ${onclick?`style="cursor:pointer" onclick="${onclick}"`:''}><div class="ico ${cls}">${ic}</div><div class="n">${n}</div><div class="l">${l}</div><div class="s">${sub}</div></div>`;
   const pulse=`<div class="pulse"><div><div class="lbl">Legislative Pulse</div><div class="txt"><b>${BILLS.length}</b> bills tracked across <b>${states}</b> jurisdictions. <b>${high}</b> high-impact (7+) require attention.</div></div><div class="ago"><span class="live-dot"></span>${GENERATED_AT?new Date(GENERATED_AT).toLocaleDateString():'live'}</div></div>`;
   const stats=`<div class="stats">
-    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>','ico-amber',active,'Pending Bills','Active legislation')}
-    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 12l3 3 5-6"/><circle cx="12" cy="12" r="9"/></svg>','ico-brand',signed,'Signed / Passed','Enacted or chaptered')}
-    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>','ico-red',high,'High Impact','Score 7+')}
-    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/></svg>','ico-purple',states,'Jurisdictions','With tracked bills')}
-    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M4 12h16M4 17h16"/></svg>','ico-blue',Object.keys(cats).length,'Categories','HR classifications')}
+    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>','ico-amber',active,'Pending Bills','Active legislation',"filters={q:'',st:'',cat:'',status:'active'};nav('pending')")}
+    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 12l3 3 5-6"/><circle cx="12" cy="12" r="9"/></svg>','ico-brand',signed,'Signed / Passed','Enacted or chaptered',"filters={q:'',st:'',cat:'',status:'signed'};nav('passed')")}
+    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>','ico-red',high,'High Impact','Score 7+',"nav('impact')")}
+    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/></svg>','ico-purple',states,'Jurisdictions','With tracked bills',"nav('bystate')")}
+    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M4 12h16M4 17h16"/></svg>','ico-blue',Object.keys(cats).length,'Categories','HR classifications',"nav('bycat')")}
   </div>`;
   const entries=Object.entries(cats).sort((a,b)=>b[1]-a[1]);
   const mapPanel=`<div class="grid2"><div class="panel"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div><h3>Legislative Activity by State</h3><div class="sub">Click any state to explore · grayed = not in current coverage</div></div><div id="mapToggle" style="display:flex;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:12px"><button onclick="mapMode='activity';drawMap()" id="mtA" style="border:none;padding:5px 12px;cursor:pointer;background:var(--brand-l);color:var(--brand-d);font-weight:600">Activity</button><button onclick="mapMode='risk';drawMap()" id="mtR" style="border:none;padding:5px 12px;cursor:pointer;background:transparent;color:var(--ink3)">Risk Score</button></div></div><div id="usmap"></div></div><div class="panel"><h3>Bills by Category</h3><div class="sub">AI-classified · click to filter</div><div class="donut-wrap"><div id="donut"></div><div class="donut-legend">${entries.map(([c,n])=>`<div class="row" style="cursor:pointer" onclick="navCat('${c}')"><span class="dot" style="background:${CAT_COLORS[c]||'#999'}"></span>${c}<span class="cnt">${n}</span></div>`).join('')}</div></div></div></div>`;
@@ -203,22 +206,91 @@ function vDash(){
   return pulse+stats+mapPanel+bottomGrid+`<div class="disclaimer">Live data via LegiScan\\'s free API, refreshed nightly by a GitHub Actions workflow at $0/month. Map, news, and effective-dates panels all draw from the same nightly pipeline. See the Data Pipeline tab for how it works.</div>`;
 }
 let mapMode='activity';
-function drawMap(){
-  const el=document.getElementById('usmap');if(!el)return;
-  document.getElementById('mtA').style.background=mapMode==='activity'?'var(--brand-l)':'transparent';
-  document.getElementById('mtA').style.color=mapMode==='activity'?'var(--brand-d)':'var(--ink3)';
-  document.getElementById('mtA').style.fontWeight=mapMode==='activity'?'600':'400';
-  document.getElementById('mtR').style.background=mapMode==='risk'?'var(--brand-l)':'transparent';
-  document.getElementById('mtR').style.color=mapMode==='risk'?'var(--brand-d)':'var(--ink3)';
-  document.getElementById('mtR').style.fontWeight=mapMode==='risk'?'600':'400';
+let US_GEO_CACHE=null, US_GEO_FAILED=false;
+// FIPS numeric state code -> USPS abbreviation (US Census standard, stable reference data)
+const FIPS_TO_ABBR={"01":"AL","02":"AK","04":"AZ","05":"AR","06":"CA","08":"CO","09":"CT","10":"DE","11":"DC","12":"FL","13":"GA","15":"HI","16":"ID","17":"IL","18":"IN","19":"IA","20":"KS","21":"KY","22":"LA","23":"ME","24":"MD","25":"MA","26":"MI","27":"MN","28":"MS","29":"MO","30":"MT","31":"NE","32":"NV","33":"NH","34":"NJ","35":"NM","36":"NY","37":"NC","38":"ND","39":"OH","40":"OK","41":"OR","42":"PA","44":"RI","45":"SC","46":"SD","47":"TN","48":"TX","49":"UT","50":"VT","51":"VA","53":"WA","54":"WV","55":"WI","56":"WY"};
+
+function mapToggleStyles(){
+  const a=document.getElementById('mtA'), r=document.getElementById('mtR');
+  if(!a||!r)return;
+  a.style.background=mapMode==='activity'?'var(--brand-l)':'transparent';
+  a.style.color=mapMode==='activity'?'var(--brand-d)':'var(--ink3)';
+  a.style.fontWeight=mapMode==='activity'?'600':'400';
+  r.style.background=mapMode==='risk'?'var(--brand-l)':'transparent';
+  r.style.color=mapMode==='risk'?'var(--brand-d)':'var(--ink3)';
+  r.style.fontWeight=mapMode==='risk'?'600':'400';
+}
+function mapValueFns(){
   const cnt={},imp={};
   BILLS.forEach(b=>{cnt[b.st]=(cnt[b.st]||0)+1;(imp[b.st]=imp[b.st]||[]).push(b.impact);});
   const val=s=>{if(mapMode==='risk'){if(!imp[s])return null;return imp[s].reduce((a,b)=>a+b,0)/imp[s].length;}return cnt[s]||null;};
-  const shade=v=>{ // purple scale
-    if(v===null||v===undefined)return 'var(--line)';
+  const shade=v=>{
+    if(v===null||v===undefined)return '#E5E7EB';
     if(mapMode==='risk'){if(v>=7)return '#4C1D95';if(v>=5.5)return '#6D28D9';if(v>=4)return '#8B5CF6';if(v>=2.5)return '#C4B5FD';return '#EDE9FE';}
     if(v>=26)return '#4C1D95';if(v>=16)return '#6D28D9';if(v>=9)return '#8B5CF6';if(v>=4)return '#A78BFA';if(v>=1)return '#C4B5FD';return '#EDE9FE';
   };
+  return {val,shade};
+}
+function mapLegendHtml(){
+  return `<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink3);margin-top:10px;flex-wrap:wrap">Bills tracked:
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#EDE9FE"></span>0
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#C4B5FD"></span>1-3
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#A78BFA"></span>4-8
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#8B5CF6"></span>9-15
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#6D28D9"></span>16-25
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#4C1D95"></span>26+
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#E5E7EB"></span>N/A
+    </div>
+    <div id="mapTip" style="position:fixed;display:none;background:var(--ink);color:#fff;padding:7px 11px;border-radius:8px;font-size:12px;pointer-events:none;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.2)"></div>`;
+}
+
+// Real geographic US map — fetches real state boundary shapes from a public
+// topology CDN at runtime (the deployed site has internet access even though
+// the dev sandbox that built it didn't). Falls back to a tile cartogram if
+// the fetch or D3 isn't available for any reason.
+function drawMap(){
+  const el=document.getElementById('usmap');if(!el)return;
+  mapToggleStyles();
+  if(typeof d3==='undefined'||typeof topojson==='undefined'||US_GEO_FAILED){
+    drawMapFallback();return;
+  }
+  if(US_GEO_CACHE){renderGeoMap(el,US_GEO_CACHE);return;}
+  el.innerHTML='<div style="padding:40px;text-align:center;color:var(--ink3);font-size:13px">Loading map…</div>';
+  fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')
+    .then(r=>{if(!r.ok)throw new Error('map fetch failed');return r.json();})
+    .then(topo=>{
+      const geo=topojson.feature(topo, topo.objects.states);
+      US_GEO_CACHE=geo;
+      renderGeoMap(el,geo);
+    })
+    .catch(e=>{
+      console.warn('Real map unavailable, using fallback:', e.message);
+      US_GEO_FAILED=true;
+      drawMapFallback();
+    });
+}
+function renderGeoMap(el,geo){
+  const {val,shade}=mapValueFns();
+  const width=960, height=600;
+  const path=d3.geoPath().projection(d3.geoAlbersUsa().scale(1150).translate([width/2,height/2]));
+  let shapes='';
+  geo.features.forEach(f=>{
+    const abbr=FIPS_TO_ABBR[String(f.id).padStart(2,'0')];
+    if(!abbr)return;
+    const v=val(abbr);
+    const d=path(f);
+    if(!d)return;
+    shapes+=`<path d="${d}" fill="${shade(v)}" stroke="#fff" stroke-width="1"
+      style="cursor:${v!==null?'pointer':'default'}"
+      ${v!==null?`onclick="navState('${abbr}')"`:''}
+      onmousemove="mapTip(event,'${abbr}')" onmouseleave="mapHide()"/>`;
+  });
+  el.innerHTML=`<svg viewBox="0 0 ${width} ${height}" width="100%" style="max-width:720px;display:block;margin:0 auto">${shapes}</svg>${mapLegendHtml()}`;
+}
+// Tile-grid fallback (used only if the real map can't load — e.g. offline viewing)
+function drawMapFallback(){
+  const el=document.getElementById('usmap');if(!el)return;
+  const {val,shade}=mapValueFns();
   const cols=12, rows=8, gap=4, cell=52;
   const W=cols*(cell+gap), H=rows*(cell+gap);
   let tiles='';
@@ -232,17 +304,7 @@ function drawMap(){
       <rect x="${x}" y="${y}" width="${cell}" height="${cell}" rx="7" fill="${fill}"/>
       <text x="${x+cell/2}" y="${y+cell/2+4}" text-anchor="middle" font-size="13" font-weight="600" fill="${tc}">${s}</text></g>`;
   }
-  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:640px;display:block;margin:0 auto"><style>#usmap text{font-family:Inter,sans-serif}</style>${tiles}</svg>
-    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink3);margin-top:10px;flex-wrap:wrap">Bills tracked:
-      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#EDE9FE"></span>0
-      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#C4B5FD"></span>1-3
-      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#A78BFA"></span>4-8
-      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#8B5CF6"></span>9-15
-      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#6D28D9"></span>16-25
-      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#4C1D95"></span>26+
-      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:var(--line)"></span>N/A
-    </div>
-    <div id="mapTip" style="position:fixed;display:none;background:var(--ink);color:#fff;padding:7px 11px;border-radius:8px;font-size:12px;pointer-events:none;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.2)"></div>`;
+  el.innerHTML=`<div style="font-size:11px;color:var(--ink3);margin-bottom:8px">(offline map view — showing tile cartogram)</div><svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:640px;display:block;margin:0 auto"><style>#usmap text{font-family:Inter,sans-serif}</style>${tiles}</svg>${mapLegendHtml()}`;
 }
 function mapTip(e,s){
   const t=document.getElementById('mapTip');if(!t)return;
