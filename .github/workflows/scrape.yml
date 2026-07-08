@@ -1,0 +1,59 @@
+name: Nightly Legislative Scrape
+
+# Free, self-running data pipeline — no server needed.
+# Runs on GitHub's scheduler, refreshes the data, commits it back,
+# and GitHub Pages serves the updated site automatically.
+
+on:
+  schedule:
+    # 06:00 UTC = ~22:00 US Pacific the prior evening (matches Legets' 10pm agent).
+    # GitHub cron is UTC; adjust as desired.
+    - cron: "0 6 * * *"
+  workflow_dispatch: {}   # allow manual "Run workflow" button
+
+permissions:
+  contents: write         # needed to commit refreshed data back to the repo
+  pages: write
+  id-token: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run scraper
+        env:
+          # Optional: add ANTHROPIC_API_KEY as a repo secret to get real
+          # Claude-generated memos. Without it, the deterministic scorer runs.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scraper/scraper.py --once
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name  "scrape-bot"
+          git config user.email "scrape-bot@users.noreply.github.com"
+          git add web/data.json data/legets.db || true
+          git commit -m "chore: nightly data refresh ($(date -u +%Y-%m-%d))" || echo "no changes"
+          git push || echo "nothing to push"
+
+  deploy-pages:
+    needs: scrape
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web           # serve the web/ folder (index.html + data.json)
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
