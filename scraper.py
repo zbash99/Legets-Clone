@@ -77,6 +77,10 @@ def init_db():
         id TEXT PRIMARY KEY, agency TEXT, rule TEXT, closes TEXT,
         status TEXT, summary TEXT, url TEXT, source TEXT, scraped_at TEXT
     )""")
+    con.execute("""CREATE TABLE IF NOT EXISTS news(
+        id TEXT PRIMARY KEY, title TEXT, summary TEXT, source TEXT,
+        published TEXT, url TEXT, scraped_at TEXT
+    )""")
     con.commit()
     return con
 
@@ -218,6 +222,51 @@ def _heuristic_classify(bill, default_category):
 # ---------------------------------------------------------------------------
 # ORCHESTRATION
 # ---------------------------------------------------------------------------
+def fetch_hr_news(session, limit=12):
+    """
+    Pull recent HR / employment-law headlines from FREE public RSS feeds.
+    Uses stdlib xml parsing — no extra pip dependency. Degrades to [] on error.
+    """
+    import xml.etree.ElementTree as ET
+    feeds = [
+        ("HR Dive", "https://www.hrdive.com/feeds/news/"),
+        ("JD Supra – Labor & Employment", "https://www.jdsupra.com/legalnews/rss/category/labor-employment-law/"),
+        ("SHRM", "https://www.shrm.org/rss/pages/rss.aspx"),
+    ]
+    out, seen = [], set()
+    for source, url in feeds:
+        try:
+            r = session.get(url, headers=UA, timeout=20)
+            if r.status_code != 200:
+                print(f"  [news/{source}] HTTP {r.status_code}", file=sys.stderr)
+                continue
+            root = ET.fromstring(r.content)
+            # RSS <item> under channel; handle common namespaces loosely
+            for item in root.iter("item"):
+                title = (item.findtext("title") or "").strip()
+                link = (item.findtext("link") or "").strip()
+                desc = (item.findtext("description") or "").strip()
+                pub = (item.findtext("pubDate") or "").strip()
+                if not title or link in seen:
+                    continue
+                seen.add(link)
+                # strip any HTML tags from description, trim length
+                desc = re.sub(r"<[^>]+>", "", desc)
+                out.append({
+                    "id": link or title,
+                    "title": title,
+                    "summary": desc[:220],
+                    "source": source,
+                    "published": pub,
+                    "url": link,
+                })
+            time.sleep(0.5)
+        except Exception as e:
+            print(f"  [news/{source}] ERROR {e}", file=sys.stderr)
+    # newest first isn't reliable across feeds without date parsing; keep feed order, cap total
+    return out[:limit]
+
+
 def run_once():
     con = init_db()
     api_key = os.environ.get("LEGISCAN_API_KEY")
@@ -290,6 +339,22 @@ def run_once():
     except Exception as e:
         print(f"  [sources] skipped: {e}")
 
+    # ---- HR news headlines (free RSS feeds) ----
+    try:
+        print("fetching HR news (free RSS feeds)...")
+        news = fetch_hr_news(session)
+        con.execute("DELETE FROM news")
+        now3 = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+        for n in news:
+            con.execute("""INSERT OR REPLACE INTO news
+                (id,title,summary,source,published,url,scraped_at)
+                VALUES (?,?,?,?,?,?,?)""",
+                (n["id"], n["title"], n["summary"], n["source"],
+                 n["published"], n["url"], now3))
+        print(f"  {len(news)} news items stored")
+    except Exception as e:
+        print(f"  [news] skipped: {e}")
+
     print("checkpoint: committing to DB...")
     con.commit()
     print("checkpoint: exporting JSON...")
@@ -312,14 +377,18 @@ def export_json(con):
     ccols = ["id","agency","rule","closes","status","summary","url","source"]
     comments = [dict(zip(ccols, r)) for r in con.execute(
         "SELECT id,agency,rule,closes,status,summary,url,source FROM comments ORDER BY closes ASC").fetchall()]
+    # news
+    ncols = ["id","title","summary","source","published","url"]
+    news = [dict(zip(ncols, r)) for r in con.execute(
+        "SELECT id,title,summary,source,published,url FROM news").fetchall()]
     run = con.execute("SELECT started_at,finished_at,bills_found FROM runs ORDER BY id DESC LIMIT 1").fetchone()
     snapshot = {"generated_at": run[1] if run else None,
                 "bill_count": len(bills), "bills": bills,
-                "rulings": rulings, "comments": comments}
+                "rulings": rulings, "comments": comments, "news": news}
     out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.json")
     with open(out, "w") as f:
         json.dump(snapshot, f, indent=2)
-    print(f"  exported {len(bills)} bills, {len(rulings)} rulings, {len(comments)} comments -> {out}")
+    print(f"  exported {len(bills)} bills, {len(rulings)} rulings, {len(comments)} comments, {len(news)} news -> {out}")
 
 
 def run_schedule():
