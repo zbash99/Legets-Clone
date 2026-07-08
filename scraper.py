@@ -19,9 +19,8 @@ Requires: requests, beautifulsoup4, lxml  (+ optional anthropic for live AI clas
 
 import argparse, sqlite3, time, re, sys, os, json, datetime, urllib.parse
 import requests
-from bs4 import BeautifulSoup
 
-DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "legets.db")
+DB_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "legets.db")
 UA = {"User-Agent": "Mozilla/5.0 (compatible; HRLegTracker/1.0; internal-eval)"}
 
 # HR-relevant search topics. Each becomes a scraped query against public pages.
@@ -82,53 +81,44 @@ def init_db():
     return con
 
 # ---------------------------------------------------------------------------
-# SCRAPE  (public HTML pages — no API key)
+# SCRAPE  (LegiScan's official FREE public API — not scraping, not a paid vendor)
 # ---------------------------------------------------------------------------
-def scrape_search(state, query, session):
+def legiscan_search(state, query, session, api_key):
     """
-    Scrape LegiScan's public search results PAGE (HTML), not the API.
-    URL pattern for the human-facing search:
-      https://legiscan.com/gaits/search?state=CA&keyword=minimum+wage
-    Returns list of dicts with the raw fields visible on the page.
+    Query LegiScan's free public API (op=getSearch). Free tier: 30,000
+    queries/month, no cost. This is the same API tested manually earlier
+    in the build-vs-buy evaluation. Docs:
+    https://legiscan.com/gaits/documentation/legiscan-api
+
+    Switched to this after confirming LegiScan's HTML search pages return
+    HTTP 403 to automated requests (active bot protection) — see build notes.
     """
-    base = "https://legiscan.com/gaits/search"
-    params = {"state": state, "keyword": query}
-    url = base + "?" + urllib.parse.urlencode(params)
     out = []
+    url = "https://api.legiscan.com/"
+    params = {"key": api_key, "op": "getSearch", "state": state, "query": query}
     try:
-        r = session.get(url, headers=UA, timeout=20)
+        r = session.get(url, params=params, headers=UA, timeout=20)
         if r.status_code != 200:
             print(f"  [{state}/{query}] HTTP {r.status_code}", file=sys.stderr)
             return out
-        soup = BeautifulSoup(r.text, "lxml")
-        # LegiScan search results render as rows in a results table.
-        # Each result links to /{STATE}/bill/{NUM}/{YEAR}. Parse those anchors
-        # and their surrounding row cells.
-        for a in soup.select("a[href*='/bill/']"):
-            href = a.get("href", "")
-            m = re.search(r"/([A-Z]{2}|US)/bill/([A-Za-z0-9]+)/(\d+)", href)
-            if not m:
+        data = r.json()
+        if data.get("status") != "OK":
+            alert = (data.get("alert") or {}).get("message", "unknown error")
+            print(f"  [{state}/{query}] API error: {alert}", file=sys.stderr)
+            return out
+        results = data.get("searchresult", {}) or {}
+        for key, bill in results.items():
+            if key == "summary" or not isinstance(bill, dict):
                 continue
-            st, num, year = m.group(1), m.group(2), m.group(3)
-            title = a.get_text(strip=True)
-            if not title or len(title) < 4:
-                continue
-            row = a.find_parent("tr")
-            status, action, date = "", "", ""
-            if row:
-                cells = [c.get_text(strip=True) for c in row.find_all("td")]
-                # heuristics: find a date-like and status-like cell
-                for c in cells:
-                    if re.search(r"\d{4}-\d{2}-\d{2}", c) or re.search(r"[A-Z][a-z]{2}\s+\d", c):
-                        date = c
-                    if re.search(r"(introduc|committee|passed|signed|chaptered|vetoed|enrolled|died|failed)", c, re.I):
-                        action = c
-            full_url = "https://legiscan.com" + href if href.startswith("/") else href
             out.append({
-                "state": st, "number": num, "title": title,
-                "url": full_url, "last_action": action, "last_action_date": date,
+                "state": bill.get("state", state),
+                "number": bill.get("bill_number", ""),
+                "title": bill.get("title", ""),
+                "url": bill.get("url", ""),
+                "last_action": bill.get("last_action", "") or "",
+                "last_action_date": bill.get("last_action_date", "") or "",
             })
-        time.sleep(1.2)  # be polite — rate-limit like a good scraper
+        time.sleep(0.3)  # polite pacing, well within the free-tier rate limit
     except Exception as e:
         print(f"  [{state}/{query}] ERROR {e}", file=sys.stderr)
     return out
@@ -225,13 +215,20 @@ def _heuristic_classify(bill, default_category):
 # ---------------------------------------------------------------------------
 def run_once():
     con = init_db()
-    started = datetime.datetime.now().isoformat(timespec="seconds")
-    print(f"[{started}] scrape run starting — {len(STATES)} states x {len(TOPICS)} topics")
+    api_key = os.environ.get("LEGISCAN_API_KEY")
+    if not api_key:
+        print("ERROR: LEGISCAN_API_KEY is not set. Add it as a GitHub Actions secret "
+              "(Settings -> Secrets and variables -> Actions -> New repository secret).",
+              file=sys.stderr)
+        sys.exit(1)
+    started = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+    print(f"[{started}] scrape run starting — {len(STATES)} states x {len(TOPICS)} topics "
+          f"({len(STATES)*len(TOPICS)} API queries, free tier allows 30,000/month)")
     session = requests.Session()
     seen = {}
     for state in STATES:
         for query, default_cat in TOPICS:
-            results = scrape_search(state, query, session)
+            results = legiscan_search(state, query, session, api_key)
             for b in results:
                 bid = f"{b['state']}-{b['number']}"
                 if bid in seen:
@@ -241,7 +238,7 @@ def run_once():
                     cat, impact, memo = classify_and_score(b, default_cat)
                     b.update({"category": cat, "impact": impact, "memo": memo,
                               "topic": query, "id": bid,
-                              "scraped_at": datetime.datetime.now().isoformat(timespec="seconds")})
+                              "scraped_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")})
                     seen[bid] = b
                 except Exception as e:
                     print(f"  [classify error on {bid}: {e}] — skipping this bill", file=sys.stderr)
@@ -257,7 +254,7 @@ def run_once():
             (b["id"], b["state"], b["number"], b["title"], b["status"],
              b["last_action"], b["last_action_date"], b["category"], b["impact"],
              b["memo"], b["url"], b["topic"], b["scraped_at"]))
-    finished = datetime.datetime.now().isoformat(timespec="seconds")
+    finished = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
     con.execute("INSERT INTO runs(started_at,finished_at,bills_found,status) VALUES(?,?,?,?)",
                 (started, finished, len(seen), "ok"))
     # ---- collect from the free non-legislature sources (courts + agencies) ----
@@ -266,7 +263,7 @@ def run_once():
         print("scraping court rulings (CourtListener, free)...")
         rulings = sources.fetch_court_rulings()
         con.execute("DELETE FROM rulings")
-        now2 = datetime.datetime.now().isoformat(timespec="seconds")
+        now2 = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
         for r in rulings:
             con.execute("""INSERT OR REPLACE INTO rulings
                 (id,court,case_name,ruling_date,topic,summary,url,source,scraped_at)
@@ -311,7 +308,7 @@ def export_json(con):
     snapshot = {"generated_at": run[1] if run else None,
                 "bill_count": len(bills), "bills": bills,
                 "rulings": rulings, "comments": comments}
-    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.json")
+    out = os.path.join(os.path.dirname(__file__), "..", "web", "data.json")
     with open(out, "w") as f:
         json.dump(snapshot, f, indent=2)
     print(f"  exported {len(bills)} bills, {len(rulings)} rulings, {len(comments)} comments -> web/data.json")
