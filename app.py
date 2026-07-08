@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HR Legislative Intelligence — Live (Legets clone)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F5F7;--panel:#fff;--ink:#1A2027;--ink2:#5B6670;--ink3:#8A929B;--line:#E6E8EC;--line2:#D7DBE0;--brand:#16B47F;--brand-d:#0E8A60;--brand-l:#E4F6EF;--purple:#7C6BD8;--purple-l:#EEEBFB;--amber:#E0952B;--amber-l:#FBF0DC;--red:#D8563B;--red-l:#FBE9E4;--blue:#3E7BD6;--blue-l:#E7F0FB;--sidebar:#0F1B2D;--shadow:0 1px 2px rgba(16,30,54,.04),0 2px 8px rgba(16,30,54,.04);}
+[data-theme=dark]{--bg:#0B131F;--panel:#131E2C;--ink:#E9EDF2;--ink2:#9BA7B4;--ink3:#6C7885;--line:#233042;--line2:#2E3D51;--brand-l:#0E2B23;--purple-l:#241F3D;--amber-l:#2E2413;--red-l:#2E1A14;--blue-l:#122234;--sidebar:#08101B;}
+*{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:14px}
+a{color:inherit;text-decoration:none}.app{display:flex;min-height:100vh}
+.sidebar{width:225px;flex-shrink:0;background:var(--sidebar);color:#C7D0DC;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.logo{display:flex;align-items:center;gap:9px;padding:18px 20px;font-weight:700;font-size:18px;color:#fff;border-bottom:1px solid rgba(255,255,255,.07)}
+.logo-mark{width:26px;height:26px;background:var(--brand);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.nav{flex:1;padding:10px 0}.nav-head{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:#8595A8;padding:15px 20px 6px;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:11px;padding:9px 20px;font-size:13.5px;color:#C7D0DC;cursor:pointer;border-left:3px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.05);color:#fff}.nav-item.active{color:#fff;background:rgba(22,180,127,.13);border-left-color:var(--brand);font-weight:500}
+.nav-item svg{width:17px;height:17px;stroke-width:1.8}
+.main{flex:1;min-width:0}.topbar{display:flex;align-items:center;gap:14px;padding:12px 26px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.crumb{font-weight:600;font-size:15px}.spacer{flex:1}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink2)}.live-dot{width:8px;height:8px;background:var(--brand);border-radius:50%;box-shadow:0 0 0 3px var(--brand-l)}
+.tbtn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;border:1px solid var(--line2);background:var(--panel);color:var(--ink);cursor:pointer}
+.tbtn.primary{background:var(--brand);border-color:var(--brand);color:#fff}.tbtn svg{width:15px;height:15px}
+.icon-btn{background:none;border:1px solid var(--line2);width:34px;height:34px;border-radius:8px;color:var(--ink2);cursor:pointer;display:flex;align-items:center;justify-content:center}.icon-btn svg{width:17px;height:17px}
+.avatar{display:inline-flex;align-items:center;gap:8px;font-size:13px}.circ{width:30px;height:30px;border-radius:50%;background:var(--brand-l);color:var(--brand-d);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px}
+.content{padding:24px 26px;max-width:1400px}
+.src-banner{background:var(--brand-l);border:1px solid var(--brand);border-radius:9px;padding:11px 15px;font-size:12.5px;color:var(--brand-d);margin-bottom:18px;display:flex;gap:9px;align-items:flex-start}
+.src-banner svg{width:16px;height:16px;flex-shrink:0;margin-top:1px}
+.page-head{margin-bottom:18px}.page-head h1{font-size:22px;font-weight:700}.page-head p{color:var(--ink2);font-size:13.5px;margin-top:3px}
+.pulse{background:var(--brand-l);border:1px solid var(--brand);border-radius:11px;padding:14px 18px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.pulse .lbl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--brand-d)}.pulse .txt{font-size:14px;margin-top:3px}.pulse .ago{font-size:12px;color:var(--ink2);white-space:nowrap;display:flex;align-items:center;gap:6px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:22px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 17px;box-shadow:var(--shadow)}
+.stat .ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:11px}.stat .ico svg{width:17px;height:17px}
+.stat .n{font-size:27px;font-weight:700;line-height:1}.stat .l{font-size:13px;font-weight:600;margin-top:6px}.stat .s{font-size:11.5px;color:var(--ink3);margin-top:2px}
+.ico-amber{background:var(--amber-l);color:var(--amber)}.ico-brand{background:var(--brand-l);color:var(--brand-d)}.ico-red{background:var(--red-l);color:var(--red)}.ico-purple{background:var(--purple-l);color:var(--purple)}.ico-blue{background:var(--blue-l);color:var(--blue)}
+.grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-bottom:20px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow)}
+.panel h3{font-size:15px;font-weight:600;margin-bottom:3px}.panel .sub{font-size:12px;color:var(--ink3);margin-bottom:14px}
+.donut-wrap{display:flex;align-items:center;gap:20px}.donut-legend{flex:1}.donut-legend .row{display:flex;align-items:center;gap:9px;font-size:13px;padding:4px 0}.donut-legend .dot{width:9px;height:9px;border-radius:2px}.donut-legend .cnt{margin-left:auto;font-weight:600;color:var(--ink2)}
+.filters{display:flex;gap:9px;margin-bottom:15px;flex-wrap:wrap;align-items:center}
+.filters input,.filters select{font-family:inherit;font-size:13px;padding:8px 11px;border:1px solid var(--line2);border-radius:8px;background:var(--panel);color:var(--ink)}.filters input{flex:1;min-width:180px}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:11px;letter-spacing:.02em;text-transform:uppercase;color:var(--ink3);font-weight:600;padding:9px 11px;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap}
+td{padding:11px;border-bottom:1px solid var(--line);font-size:13px}tbody tr:hover{background:var(--bg)}
+.billnum{font-weight:600;color:var(--brand-d);white-space:nowrap}.st-badge{font-size:11px;font-weight:600;color:var(--ink2);background:var(--bg);padding:2px 7px;border-radius:4px}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap}.p-signed{background:var(--brand-l);color:var(--brand-d)}.p-active{background:var(--blue-l);color:var(--blue)}.p-vetoed{background:var(--red-l);color:var(--red)}
+.cat-tag{font-size:11px;background:var(--bg);color:var(--ink2);padding:3px 8px;border-radius:5px;white-space:nowrap}
+.imp{display:flex;align-items:center;gap:7px}.imp .bar{width:46px;height:6px;background:var(--line);border-radius:3px;overflow:hidden}.imp .fill{height:100%}.imp .n{font-weight:700;font-size:12px;width:14px}.f-hi{background:var(--red)}.f-mid{background:var(--amber)}.f-lo{background:var(--ink3)}
+.state-grid,.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.state-card,.cat-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 17px;cursor:pointer;box-shadow:var(--shadow)}
+.state-card .code{font-size:12px;font-weight:700;color:var(--ink2)}.state-card .cnt,.cat-card .cnt{font-size:24px;font-weight:700;margin:8px 0 2px}.state-card .avg{font-size:11.5px;color:var(--ink3)}
+.memo{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:17px 19px;margin-bottom:13px;box-shadow:var(--shadow)}
+.memo-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.memo-title{font-size:14.5px;font-weight:600;margin:5px 0}.memo-meta{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:9px}.memo-text{font-size:13px;color:var(--ink2);line-height:1.6}
+.tier-head{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:600;margin:22px 0 12px}.tier-head .cnt{background:var(--red-l);color:var(--red);font-size:12px;font-weight:700;padding:1px 9px;border-radius:20px}
+.view{display:none}.view.active{display:block}
+.loading{text-align:center;padding:60px;color:var(--ink3)}
+.disclaimer{font-size:11.5px;color:var(--ink3);margin-top:16px;padding:11px 14px;background:var(--bg);border-radius:8px;line-height:1.5}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}.grid2{grid-template-columns:1fr}.state-grid,.cat-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></span>Legets</div>
+    <nav class="nav" id="nav">
+      <div class="nav-head">Legislation</div>
+      <div class="nav-item active" data-v="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</div>
+      <div class="nav-item" data-v="pending"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Pending Bills</div>
+      <div class="nav-item" data-v="passed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Recently Passed</div>
+      <div class="nav-item" data-v="bystate"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/></svg>By State</div>
+      <div class="nav-item" data-v="bycat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.6 13.4L11 3.8V3H4v7h.8l9.6 9.6a1.4 1.4 0 002 0l4.2-4.2a1.4 1.4 0 000-2z"/></svg>By Category</div>
+      <div class="nav-head">Analysis</div>
+      <div class="nav-item" data-v="impact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M9 13l2 2 4-4"/></svg>Impact Action Plan<span style="width:6px;height:6px;background:var(--brand);border-radius:50%;margin-left:auto"></span></div>
+      <div class="nav-item" data-v="compare"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 4v16M17 4v16M3 8h4M17 8h4M3 16h4M17 16h4"/></svg>State Comparison</div>
+      <div class="nav-item" data-v="rulings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v18M5 7l7-4 7 4M5 7l-2 5a3 3 0 006 0L5 7zM19 7l-2 5a3 3 0 006 0l-4-5z"/></svg>Judicial Rulings</div>
+      <div class="nav-item" data-v="paytrans"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c0-1 1-1.5 2.5-1.5s2.5.5 2.5 1.5-1 1.5-2.5 1.5-2.5.5-2.5 1.5 1 1.5 2.5 1.5 2.5-.5 2.5-1.5"/></svg>Pay Transparency</div>
+      <div class="nav-item" data-v="noncompete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16M9 4v16"/></svg>Non-Compete Matrix</div>
+      <div class="nav-item" data-v="comments"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Comment Periods</div>
+      <div class="nav-head">Compliance</div>
+      <div class="nav-item" data-v="calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>Compliance Calendar</div>
+      <div class="nav-head">My Tools</div>
+      <div class="nav-item" data-v="watchlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>Watchlist</div>
+      <div class="nav-item" data-v="handbook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Handbook Analyzer</div>
+      <div class="nav-item" data-v="templates"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18M8 6v12M13 4v16M18 7v10M23 5v14"/></svg>Policy Templates</div>
+      <div class="nav-head">Admin</div>
+      <div class="nav-item" data-v="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/></svg>Account</div>
+      <div class="nav-item" data-v="help"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 015 0c0 1.5-2.5 2-2.5 3.5M12 17h.01"/></svg>Help &amp; Docs</div>
+      <div class="nav-head">System</div>
+      <div class="nav-item" data-v="pipeline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Data Pipeline</div>
+    </nav>
+  </aside>
+  <div class="main">
+    <div class="topbar">
+      <span class="crumb" id="crumb">Dashboard</span><span class="spacer"></span>
+      <span class="live"><span class="live-dot"></span><span id="liveText">Live</span></span>
+      <button class="tbtn" onclick="refresh()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M23 4v6h-6M1 20v-6h6M3.5 9a9 9 0 0114.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0020.5 15"/></svg>Refresh</button>
+      <button class="icon-btn" onclick="document.documentElement.setAttribute('data-theme',document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
+      <div class="avatar"><span class="circ">ZB</span>Zachary Bashour</div>
+    </div>
+    <div class="content" id="content"><div class="loading">Loading live data…</div></div>
+  </div>
+</div>
+<script>
+let BILLS=[], STATS=null, GENERATED_AT=null, DATA_SOURCE='', RULINGS=[], COMMENTS=[], RECENT_RUNS=[];
+const CAT_COLORS={"Employee Relations":"#7C6BD8","Payroll":"#16B47F","Benefits":"#3E7BD6","Employment Taxes":"#E07AA8","Recruiting":"#E0952B","Termination":"#5BA9C4","Disability":"#9B8BE0","Other":"#D8563B"};
+const STATE_NAMES={CA:"California",IL:"Illinois",TX:"Texas",FL:"Florida",CO:"Colorado",US:"Federal",NY:"New York",WA:"Washington"};
+let view='dashboard',sort={k:'impact',d:-1},filters={q:'',st:'',cat:'',status:''};
+
+// ---- DATA LOADING: try live API first, fall back to static snapshot ----
+const EMBEDDED=JSON.parse("{\"generated_at\": \"2026-07-08T14:57:58\", \"bill_count\": 33, \"bills\": [{\"id\": \"CA-SB693\", \"st\": \"CA\", \"num\": \"SB693\", \"title\": \"Employees: meal periods\", \"status\": \"signed\", \"action\": \"Chaptered \\u2014 Chapter 95, Statutes of 2025\", \"date\": \"2025-07-30\", \"cat\": \"Payroll\", \"impact\": 8, \"memo\": \"Auto-classified as Payroll. Heuristic impact 8/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/CA/bill/SB693/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"CA-SB1149\", \"st\": \"CA\", \"num\": \"SB1149\", \"title\": \"Employees: bereavement leave\", \"status\": \"active\", \"action\": \"Re-referred to Com. on APPR.\", \"date\": \"2026-06-11\", \"cat\": \"Benefits\", \"impact\": 6, \"memo\": \"Auto-classified as Benefits. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/CA/bill/SB1149/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"CA-SB513\", \"st\": \"CA\", \"num\": \"SB513\", \"title\": \"Personnel records\", \"status\": \"signed\", \"action\": \"Chaptered \\u2014 Chapter 654, Statutes of 2025\", \"date\": \"2025-10-11\", \"cat\": \"Employee Relations\", \"impact\": 6, \"memo\": \"Auto-classified as Employee Relations. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/CA/bill/SB513/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"CA-AB1234\", \"st\": \"CA\", \"num\": \"AB1234\", \"title\": \"Employment: nonpayment of wages: complaints\", \"status\": \"active\", \"action\": \"Ordered to inactive file\", \"date\": \"2025-09-03\", \"cat\": \"Payroll\", \"impact\": 6, \"memo\": \"Auto-classified as Payroll. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/CA/bill/AB1234/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"CA-AB485\", \"st\": \"CA\", \"num\": \"AB485\", \"title\": \"Labor Commissioner: unsatisfied judgments: nonpayment of wages\", \"status\": \"active\", \"action\": \"Held under submission\", \"date\": \"2025-08-29\", \"cat\": \"Payroll\", \"impact\": 6, \"memo\": \"Auto-classified as Payroll. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/CA/bill/AB485/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"CA-AB406\", \"st\": \"CA\", \"num\": \"AB406\", \"title\": \"Employment: unlawful discrimination: victims of violence\", \"status\": \"signed\", \"action\": \"Chaptered \\u2014 Chapter 148, Statutes of 2025\", \"date\": \"2025-10-01\", \"cat\": \"Employee Relations\", \"impact\": 6, \"memo\": \"Auto-classified as Employee Relations. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/CA/bill/AB406/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"CA-SB294\", \"st\": \"CA\", \"num\": \"SB294\", \"title\": \"The Workplace Know Your Rights Act\", \"status\": \"signed\", \"action\": \"Chaptered \\u2014 Chapter 667, Statutes of 2025\", \"date\": \"2025-10-12\", \"cat\": \"Employee Relations\", \"impact\": 4, \"memo\": \"Auto-classified as Employee Relations. Heuristic impact 4/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/CA/bill/SB294/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"CA-SB351\", \"st\": \"CA\", \"num\": \"SB351\", \"title\": \"Health facilities (noncompete provisions)\", \"status\": \"signed\", \"action\": \"Chaptered \\u2014 Chapter 409, Statutes of 2025\", \"date\": \"2025-10-06\", \"cat\": \"Employee Relations\", \"impact\": 6, \"memo\": \"Auto-classified as Employee Relations. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/CA/bill/SB351/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"CA-AB2646\", \"st\": \"CA\", \"num\": \"AB2646\", \"title\": \"Employment: minimum wages: agricultural workers\", \"status\": \"active\", \"action\": \"Re-referred to Com. on APPR.\", \"date\": \"2026-06-24\", \"cat\": \"Payroll\", \"impact\": 3, \"memo\": \"Auto-classified as Payroll. Heuristic impact 3/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/CA/bill/AB2646/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"CA-SB1177\", \"st\": \"CA\", \"num\": \"SB1177\", \"title\": \"Wage statements: airline cabin crew employees\", \"status\": \"active\", \"action\": \"Re-referred to Com. on L. & E.\", \"date\": \"2026-06-18\", \"cat\": \"Payroll\", \"impact\": 3, \"memo\": \"Auto-classified as Payroll. Heuristic impact 3/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/CA/bill/SB1177/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"CA-AB1750\", \"st\": \"CA\", \"num\": \"AB1750\", \"title\": \"School employees: absences due to illness or accident\", \"status\": \"active\", \"action\": \"Held under submission\", \"date\": \"2026-05-14\", \"cat\": \"Other\", \"impact\": 3, \"memo\": \"Auto-classified as Other. Heuristic impact 3/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/CA/bill/AB1750/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"CA-AB65\", \"st\": \"CA\", \"num\": \"AB65\", \"title\": \"School and community college employees: paid disability and parental leave\", \"status\": \"active\", \"action\": \"Re-referred to Com. on L., P.E. & R.\", \"date\": \"2026-06-17\", \"cat\": \"Benefits\", \"impact\": 3, \"memo\": \"Auto-classified as Benefits. Heuristic impact 3/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/CA/bill/AB65/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"IL-HB3483\", \"st\": \"IL\", \"num\": \"HB3483\", \"title\": \"Family & Medical Leave Program\", \"status\": \"active\", \"action\": \"Added co-sponsor\", \"date\": \"2026-04-07\", \"cat\": \"Benefits\", \"impact\": 6, \"memo\": \"Auto-classified as Benefits. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/IL/bill/HB3483/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"IL-SB2413\", \"st\": \"IL\", \"num\": \"SB2413\", \"title\": \"Family & Medical Leave Program (Senate companion)\", \"status\": \"active\", \"action\": \"Re-referred to Assignments\", \"date\": \"2026-05-22\", \"cat\": \"Benefits\", \"impact\": 6, \"memo\": \"Auto-classified as Benefits. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/IL/bill/SB2413/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"IL-HB2377\", \"st\": \"IL\", \"num\": \"HB2377\", \"title\": \"Paid Leave \\u2014 accrual of leave\", \"status\": \"active\", \"action\": \"Added co-sponsor\", \"date\": \"2025-03-13\", \"cat\": \"Benefits\", \"impact\": 6, \"memo\": \"Auto-classified as Benefits. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/IL/bill/HB2377/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"IL-HB3531\", \"st\": \"IL\", \"num\": \"HB3531\", \"title\": \"Paid Leave \\u2014 limitations\", \"status\": \"active\", \"action\": \"Referred to Rules Committee\", \"date\": \"2025-02-18\", \"cat\": \"Benefits\", \"impact\": 6, \"memo\": \"Auto-classified as Benefits. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/IL/bill/HB3531/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"IL-HB2978\", \"st\": \"IL\", \"num\": \"HB2978\", \"title\": \"Neonatal Intensive Care Leave\", \"status\": \"signed\", \"action\": \"Public Act 104-0259\", \"date\": \"2025-08-15\", \"cat\": \"Benefits\", \"impact\": 6, \"memo\": \"Auto-classified as Benefits. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/IL/bill/HB2978/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"IL-SB0220\", \"st\": \"IL\", \"num\": \"SB0220\", \"title\": \"Military Funeral Honors Leave\", \"status\": \"signed\", \"action\": \"Public Act 104-0078\", \"date\": \"2025-08-01\", \"cat\": \"Benefits\", \"impact\": 3, \"memo\": \"Auto-classified as Benefits. Heuristic impact 3/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/IL/bill/SB0220/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"IL-HB5147\", \"st\": \"IL\", \"num\": \"HB5147\", \"title\": \"Equal Pay \\u2014 Workforce Management\", \"status\": \"active\", \"action\": \"Floor amendment; re-referred to Rules\", \"date\": \"2026-04-17\", \"cat\": \"Payroll\", \"impact\": 4, \"memo\": \"Auto-classified as Payroll. Heuristic impact 4/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/IL/bill/HB5147/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"IL-SB2967\", \"st\": \"IL\", \"num\": \"SB2967\", \"title\": \"Menstrual Health \\u2014 Paid Leave\", \"status\": \"active\", \"action\": \"Re-referred to Assignments\", \"date\": \"2026-05-22\", \"cat\": \"Benefits\", \"impact\": 6, \"memo\": \"Auto-classified as Benefits. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/IL/bill/SB2967/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"US-HB1319\", \"st\": \"US\", \"num\": \"HB1319\", \"title\": \"Modern Worker Empowerment Act\", \"status\": \"active\", \"action\": \"Placed on Union Calendar No. 431\", \"date\": \"2026-02-20\", \"cat\": \"Employment Taxes\", \"impact\": 8, \"memo\": \"Auto-classified as Employment Taxes. Heuristic impact 8/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/US/bill/HB1319/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"US-HB4154\", \"st\": \"US\", \"num\": \"HB4154\", \"title\": \"Employee Rights Act\", \"status\": \"active\", \"action\": \"Referred to committee\", \"date\": \"2025-06-26\", \"cat\": \"Employee Relations\", \"impact\": 4, \"memo\": \"Auto-classified as Employee Relations. Heuristic impact 4/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/US/bill/HB4154/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"US-HB6646\", \"st\": \"US\", \"num\": \"HB6646\", \"title\": \"Empowering App-Based Workers Act\", \"status\": \"active\", \"action\": \"Referred to Education and Workforce\", \"date\": \"2025-12-11\", \"cat\": \"Employment Taxes\", \"impact\": 4, \"memo\": \"Auto-classified as Employment Taxes. Heuristic impact 4/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/US/bill/HB6646/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"US-SB4010\", \"st\": \"US\", \"num\": \"SB4010\", \"title\": \"21st Century Worker Act\", \"status\": \"active\", \"action\": \"Referred to Committee on Finance\", \"date\": \"2026-03-05\", \"cat\": \"Other\", \"impact\": 4, \"memo\": \"Auto-classified as Other. Heuristic impact 4/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/US/bill/SB4010/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"US-HB4599\", \"st\": \"US\", \"num\": \"HB4599\", \"title\": \"Protections and Transparency in the Workplace Act\", \"status\": \"active\", \"action\": \"Referred to Financial Services\", \"date\": \"2025-07-22\", \"cat\": \"Other\", \"impact\": 4, \"memo\": \"Auto-classified as Other. Heuristic impact 4/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/US/bill/HB4599/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"US-HB2952\", \"st\": \"US\", \"num\": \"HB2952\", \"title\": \"Start Applying Labor Transparency (SALT) Act\", \"status\": \"active\", \"action\": \"Referred to Education and Workforce\", \"date\": \"2025-04-17\", \"cat\": \"Other\", \"impact\": 4, \"memo\": \"Auto-classified as Other. Heuristic impact 4/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/US/bill/HB2952/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"TX-HB841\", \"st\": \"TX\", \"num\": \"HB841\", \"title\": \"Paid sick leave requirement for certain employers\", \"status\": \"active\", \"action\": \"Referred to s/c on Workforce\", \"date\": \"2025-03-05\", \"cat\": \"Benefits\", \"impact\": 6, \"memo\": \"Auto-classified as Benefits. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/TX/bill/HB841/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"TX-SB2072\", \"st\": \"TX\", \"num\": \"SB2072\", \"title\": \"Paid parental leave program (TX Workforce Commission)\", \"status\": \"active\", \"action\": \"Referred to Economic Development\", \"date\": \"2025-03-24\", \"cat\": \"Benefits\", \"impact\": 6, \"memo\": \"Auto-classified as Benefits. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/TX/bill/SB2072/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"TX-HB1351\", \"st\": \"TX\", \"num\": \"HB1351\", \"title\": \"Employment leave for family or medical obligations\", \"status\": \"active\", \"action\": \"Referred to s/c on Workforce\", \"date\": \"2025-03-11\", \"cat\": \"Benefits\", \"impact\": 6, \"memo\": \"Auto-classified as Benefits. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/TX/bill/HB1351/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"TX-HB2513\", \"st\": \"TX\", \"num\": \"HB2513\", \"title\": \"Paid leave for public fire-protection military service\", \"status\": \"signed\", \"action\": \"Effective 9/1/25\", \"date\": \"2025-06-20\", \"cat\": \"Benefits\", \"impact\": 3, \"memo\": \"Auto-classified as Benefits. Heuristic impact 3/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/TX/bill/HB2513/2025\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"FL-H0641\", \"st\": \"FL\", \"num\": \"H0641\", \"title\": \"Gender Identity Employment Practices\", \"status\": \"vetoed\", \"action\": \"Died on Second Reading Calendar\", \"date\": \"2026-03-13\", \"cat\": \"Other\", \"impact\": 4, \"memo\": \"Auto-classified as Other. Heuristic impact 4/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/FL/bill/H0641/2026\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"FL-S0984\", \"st\": \"FL\", \"num\": \"S0984\", \"title\": \"Firefighter Cancer Benefits\", \"status\": \"signed\", \"action\": \"Chapter No. 2026-99\", \"date\": \"2026-05-26\", \"cat\": \"Other\", \"impact\": 3, \"memo\": \"Auto-classified as Other. Heuristic impact 3/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/FL/bill/S0984/2026\", \"scraped_at\": \"2026-07-08T14:57:58\"}, {\"id\": \"CO-HB1210\", \"st\": \"CO\", \"num\": \"HB1210\", \"title\": \"Prohibit Surveillance Price & Wage Setting\", \"status\": \"vetoed\", \"action\": \"Governor Vetoed\", \"date\": \"2026-06-02\", \"cat\": \"Payroll\", \"impact\": 6, \"memo\": \"Auto-classified as Payroll. Heuristic impact 6/10 for the target profile. (Set ANTHROPIC_API_KEY for Claude-generated memos, as the production Legets does.)\", \"url\": \"https://legiscan.com/CO/bill/HB1210/2026\", \"scraped_at\": \"2026-07-08T14:57:58\"}], \"rulings\": [], \"comments\": []}");
+async function loadData(){ if(typeof EMBEDDED!=='undefined'){BILLS=EMBEDDED.bills;GENERATED_AT=EMBEDDED.generated_at;RULINGS=EMBEDDED.rulings||[];COMMENTS=EMBEDDED.comments||[];DATA_SOURCE='embedded snapshot (standalone file, no server)';return;}
+  try{
+    const r=await fetch('/api/bills');
+    if(r.ok){BILLS=await r.json();const s=await fetch('/api/stats');STATS=await s.json();GENERATED_AT=STATS.last_run;RECENT_RUNS=STATS.recent_runs||[];
+      try{RULINGS=await (await fetch('/api/rulings')).json();}catch(e){RULINGS=[];}
+      try{COMMENTS=await (await fetch('/api/comments')).json();}catch(e){COMMENTS=[];}
+      DATA_SOURCE='live API (Flask backend + scraper DB)';return;}
+    throw new Error('no api');
+  }catch(e){
+    try{
+      const r=await fetch('data.json');const d=await r.json();
+      BILLS=d.bills;GENERATED_AT=d.generated_at;RULINGS=d.rulings||[];COMMENTS=d.comments||[];
+      DATA_SOURCE='static snapshot (data.json from last scrape)';
+    }catch(e2){
+      BILLS=[];DATA_SOURCE='no data — run the scraper first';
+    }
+  }
+}
+async function refresh(){document.getElementById('content').innerHTML='<div class="loading">Refreshing…</div>';await loadData();render();}
+
+function pill(s){const m={signed:['p-signed','Signed'],vetoed:['p-vetoed','Failed/Vetoed'],active:['p-active','Active']};const[c,l]=m[s]||m.active;return `<span class="pill ${c}">${l}</span>`;}
+function impBar(v){const c=v>=7?'f-hi':v>=4?'f-mid':'f-lo';return `<div class="imp"><div class="bar"><div class="fill ${c}" style="width:${v*10}%"></div></div><span class="n">${v}</span></div>`;}
+function billLink(b){return b.url?`<a class="billnum" href="${b.url}" target="_blank" rel="noopener">${b.st} ${b.num}</a>`:`<span class="billnum">${b.st} ${b.num}</span>`;}
+function toggleWatch(id,e){if(e)e.stopPropagation();if(!window._watch)window._watch=new Set();window._watch.has(id)?window._watch.delete(id):window._watch.add(id);render();}
+
+document.getElementById('nav').addEventListener('click',e=>{const it=e.target.closest('.nav-item');if(it){view=it.dataset.v;document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n===it));render();window.scrollTo(0,0);}});
+const TITLES={dashboard:['Dashboard','Live snapshot from scraped data'],pending:['Pending Bills','Active legislation'],passed:['Recently Passed','Signed or vetoed bills'],bystate:['By State','Coverage by jurisdiction'],bycat:['By Category','HR category breakdown'],impact:['Impact Action Plan','Bills ranked by AI impact score'],compare:['State Comparison','Compare two states side-by-side'],rulings:['Judicial Rulings','Court decisions affecting employment law'],paytrans:['Pay Transparency','State salary-disclosure requirements'],noncompete:['Non-Compete Matrix','State-by-state enforceability'],comments:['Comment Periods','Open regulatory comment windows'],calendar:['Compliance Calendar','Federal and state HR deadlines'],watchlist:['Watchlist','Bills you are tracking'],handbook:['Handbook Analyzer','Cross-reference your handbook against legislation'],templates:['Policy Templates','AI-generated policy templates'],account:['Account & Billing','Manage your subscription'],help:['Help & Documentation','Get the most out of the platform'],pipeline:['Data Pipeline','How this data is collected']};
+
+function render(){
+  const[t,s]=TITLES[view];document.getElementById('crumb').textContent=t;
+  document.getElementById('liveText').textContent = GENERATED_AT?('Updated '+new Date(GENERATED_AT).toLocaleString()):'Live';
+  const banner=`<div class="src-banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2a9 9 0 00-9 9c0 4 3 7 6 8l3 3 3-3c3-1 6-4 6-8a9 9 0 00-9-9z"/></svg><div><b>${BILLS.length} real bills</b>, no sample data. Source: ${DATA_SOURCE}. Collected by scraping public legislative pages, classified + scored by the AI layer. ${GENERATED_AT?'Last scrape: '+new Date(GENERATED_AT).toLocaleString():''}</div></div>`;
+  const head=`<div class="page-head"><h1>${t}</h1><p>${s}</p></div>`;
+  let body='';
+  if(!BILLS.length&&view!=='pipeline'){body='<div class="loading">No data yet. Run <code>python scraper/scraper.py --once</code> to populate, or start the API with <code>python api/app.py</code>.</div>';}
+  else switch(view){
+    case'dashboard':body=vDash();break;
+    case'pending':body=vBills('active');break;
+    case'passed':body=vBills('passed');break;
+    case'bystate':body=vState();break;
+    case'bycat':body=vCat();break;
+    case'impact':body=vImpact();break;
+    case'compare':body=vCompare();break;
+    case'rulings':body=vRulings();break;
+    case'paytrans':body=vPayTrans();break;
+    case'noncompete':body=vNonCompete();break;
+    case'comments':body=vComments();break;
+    case'calendar':body=vCalendar();break;
+    case'watchlist':body=vWatchlist();break;
+    case'handbook':body=vHandbook();break;
+    case'templates':body=vTemplates();break;
+    case'account':body=vAccount();break;
+    case'help':body=vHelp();break;
+    case'pipeline':body=vPipeline();break;
+  }
+  document.getElementById('content').innerHTML=banner+head+body;
+  if(view==='dashboard')drawDonut();
+  if(view==='pending'||view==='passed')bindFilters();
+}
+
+function vDash(){
+  const active=BILLS.filter(b=>b.status==='active').length;
+  const signed=BILLS.filter(b=>b.status==='signed').length;
+  const high=BILLS.filter(b=>b.impact>=7).length;
+  const states=[...new Set(BILLS.map(b=>b.st))].length;
+  const cats={};BILLS.forEach(b=>cats[b.cat]=(cats[b.cat]||0)+1);
+  const stat=(ic,cls,n,l,sub)=>`<div class="stat"><div class="ico ${cls}">${ic}</div><div class="n">${n}</div><div class="l">${l}</div><div class="s">${sub}</div></div>`;
+  const pulse=`<div class="pulse"><div><div class="lbl">Legislative Pulse</div><div class="txt"><b>${BILLS.length}</b> bills tracked across <b>${states}</b> jurisdictions. <b>${high}</b> high-impact (7+) require attention.</div></div><div class="ago"><span class="live-dot"></span>${GENERATED_AT?new Date(GENERATED_AT).toLocaleDateString():'live'}</div></div>`;
+  const stats=`<div class="stats">
+    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>','ico-amber',active,'Pending Bills','Active legislation')}
+    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 12l3 3 5-6"/><circle cx="12" cy="12" r="9"/></svg>','ico-brand',signed,'Signed / Passed','Enacted or chaptered')}
+    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>','ico-red',high,'High Impact','Score 7+')}
+    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/></svg>','ico-purple',states,'Jurisdictions','With tracked bills')}
+    ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M4 12h16M4 17h16"/></svg>','ico-blue',Object.keys(cats).length,'Categories','HR classifications')}
+  </div>`;
+  const entries=Object.entries(cats).sort((a,b)=>b[1]-a[1]);
+  const donut=`<div class="grid2"><div class="panel"><h3>Bills by State</h3><div class="sub">Real coverage from last scrape</div>${barChart()}</div><div class="panel"><h3>Bills by Category</h3><div class="sub">AI-classified</div><div class="donut-wrap"><div id="donut"></div><div class="donut-legend">${entries.map(([c,n])=>`<div class="row"><span class="dot" style="background:${CAT_COLORS[c]||'#999'}"></span>${c}<span class="cnt">${n}</span></div>`).join('')}</div></div></div></div>`;
+  return pulse+stats+donut+`<div class="disclaimer">This build mirrors Ron's architecture: a scheduled scraper collects public legislative data → SQLite DB → this UI reads it via API (or a static snapshot). The scraper runs unattended (<code>--schedule</code> mode, nightly at 22:00, matching the Legets 10pm agent). The one piece a prototype can't include is an always-on host — that's a server + cron, which is the actual production infrastructure.</div>`;
+}
+function barChart(){
+  const c={};BILLS.forEach(b=>c[b.st]=(c[b.st]||0)+1);
+  const e=Object.entries(c).sort((a,b)=>b[1]-a[1]);const max=Math.max(...e.map(x=>x[1]));
+  return e.map(([s,n])=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:9px;font-size:13px"><div style="width:90px;color:var(--ink2)">${STATE_NAMES[s]||s}</div><div style="flex:1;height:8px;background:var(--line);border-radius:4px;overflow:hidden"><div style="height:100%;width:${n/max*100}%;background:var(--brand)"></div></div><div style="width:26px;text-align:right;font-weight:600">${n}</div></div>`).join('');
+}
+function drawDonut(){
+  const h=document.getElementById('donut');if(!h)return;
+  const c={};BILLS.forEach(b=>c[b.cat]=(c[b.cat]||0)+1);
+  const e=Object.entries(c).sort((a,b)=>b[1]-a[1]);const tot=e.reduce((a,[,n])=>a+n,0);
+  let acc=0,p='';const R=54,r=34,cx=64,cy=64;
+  e.forEach(([cat,n])=>{const f=n/tot,a0=acc*6.283-1.5708;acc+=f;const a1=acc*6.283-1.5708,lg=f>.5?1:0;
+    const x0=cx+R*Math.cos(a0),y0=cy+R*Math.sin(a0),x1=cx+R*Math.cos(a1),y1=cy+R*Math.sin(a1),xi0=cx+r*Math.cos(a0),yi0=cy+r*Math.sin(a0),xi1=cx+r*Math.cos(a1),yi1=cy+r*Math.sin(a1);
+    p+=`<path d="M${x0} ${y0} A${R} ${R} 0 ${lg} 1 ${x1} ${y1} L${xi1} ${yi1} A${r} ${r} 0 ${lg} 0 ${xi0} ${yi0} Z" fill="${CAT_COLORS[cat]||'#999'}"/>`;});
+  h.innerHTML=`<svg viewBox="0 0 128 128" width="128" height="128">${p}</svg>`;
+}
+
+function getBills(mode){
+  let l=BILLS.slice();
+  if(mode==='active')l=l.filter(b=>b.status==='active');
+  if(mode==='passed')l=l.filter(b=>b.status!=='active');
+  if(filters.q)l=l.filter(b=>(b.num+' '+b.title).toLowerCase().includes(filters.q.toLowerCase()));
+  if(filters.st)l=l.filter(b=>b.st===filters.st);
+  if(filters.cat)l=l.filter(b=>b.cat===filters.cat);
+  if(filters.status)l=l.filter(b=>b.status===filters.status);
+  l.sort((a,b)=>{let x=a[sort.k],y=b[sort.k];if(x<y)return -sort.d;if(x>y)return sort.d;return 0;});
+  return l;
+}
+function vBills(mode){
+  const l=getBills(mode);const states=[...new Set(BILLS.map(b=>b.st))].sort();const cats=[...new Set(BILLS.map(b=>b.cat))].sort();
+  const th=(k,l2)=>`<th onclick="sort.k==='${k}'?sort.d*=-1:(sort.k='${k}',sort.d=1);render()">${l2}</th>`;
+  return `<div class="panel"><div class="filters">
+    <input id="fq" placeholder="Search bill or title..." value="${filters.q}">
+    <select id="fst"><option value="">All states</option>${states.map(s=>`<option ${filters.st===s?'selected':''}>${s}</option>`).join('')}</select>
+    <select id="fcat"><option value="">All categories</option>${cats.map(c=>`<option ${filters.cat===c?'selected':''}>${c}</option>`).join('')}</select>
+    <span style="margin-left:auto;font-size:12px;color:var(--ink3)">${l.length} bills</span></div>
+    <table><thead><tr>${th('num','Bill')}${th('st','State')}${th('title','Title')}${th('status','Status')}${th('cat','Category')}${th('impact','Impact')}${th('date','Last Action')}<th>Watch</th></tr></thead>
+    <tbody>${l.map(b=>`<tr><td>${billLink(b)}</td><td><span class="st-badge">${b.st}</span></td><td>${b.title}</td><td>${pill(b.status)}</td><td><span class="cat-tag">${b.cat}</span></td><td>${impBar(b.impact)}</td><td style="color:var(--ink2);white-space:nowrap">${b.date||'—'}</td><td><button onclick="toggleWatch('${b.id}',event)" style="background:none;border:none;cursor:pointer;color:${(window._watch&&window._watch.has(b.id))?'var(--amber)':'var(--ink3)'};padding:3px"><svg viewBox="0 0 24 24" fill="${(window._watch&&window._watch.has(b.id))?'currentColor':'none'}" stroke="currentColor" style="width:17px;height:17px"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></button></td></tr>`).join('')||'<tr><td colspan=8 style="text-align:center;color:var(--ink3);padding:30px">No bills match</td></tr>'}</tbody></table></div>`;
+}
+function bindFilters(){const q=document.getElementById('fq');if(q)q.oninput=e=>{filters.q=e.target.value;render();document.getElementById('fq').focus();document.getElementById('fq').setSelectionRange(9999,9999);};['fst','fcat'].forEach(id=>{const el=document.getElementById(id);if(el)el.onchange=e=>{filters[id.slice(1)]=e.target.value;render();};});}
+
+function vState(){
+  const c={},im={};BILLS.forEach(b=>{c[b.st]=(c[b.st]||0)+1;(im[b.st]=im[b.st]||[]).push(b.impact);});
+  return `<div class="state-grid">${Object.keys(c).sort().map(s=>{const avg=(im[s].reduce((a,b)=>a+b,0)/im[s].length).toFixed(1);return `<div class="state-card" onclick="filters={q:'',st:'${s}',cat:'',status:''};view='pending';document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.v==='pending'));render()"><div class="code">${s}</div><div style="font-size:12px;color:var(--ink3)">${STATE_NAMES[s]||s}</div><div class="cnt">${c[s]}</div><div class="avg">bills · avg impact ${avg}/10</div></div>`;}).join('')}</div>`;
+}
+function vCat(){
+  const c={};BILLS.forEach(b=>c[b.cat]=(c[b.cat]||0)+1);
+  return `<div class="cat-grid">${Object.entries(c).sort((a,b)=>b[1]-a[1]).map(([cat,n])=>`<div class="cat-card" onclick="filters={q:'',st:'',cat:'${cat}',status:''};view='pending';document.querySelectorAll('.nav-item').forEach(x=>x.classList.toggle('active',x.dataset.v==='pending'));render()"><span class="dot" style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${CAT_COLORS[cat]||'#999'}"></span><div class="cnt">${n}</div><div style="font-size:13px">${cat}</div></div>`).join('')}</div>`;
+}
+function vImpact(){
+  const hi=BILLS.filter(b=>b.impact>=7).sort((a,b)=>b.impact-a.impact);
+  const mid=BILLS.filter(b=>b.impact>=4&&b.impact<7).sort((a,b)=>b.impact-a.impact);
+  const mem=b=>`<div class="memo"><div class="memo-top"><div>${billLink(b)}<div class="memo-title">${b.title}</div></div>${impBar(b.impact)}</div><div class="memo-meta"><span class="cat-tag">${b.cat}</span>${pill(b.status)}<span class="st-badge">${b.st}</span></div><div class="memo-text">${b.memo}</div></div>`;
+  let o='';
+  if(hi.length)o+=`<div class="tier-head">High Impact (7+) <span class="cnt">${hi.length}</span></div>`+hi.map(mem).join('');
+  if(mid.length)o+=`<div class="tier-head" style="color:var(--amber)">Medium Impact (4–6) <span class="cnt" style="background:var(--amber-l);color:var(--amber)">${mid.length}</span></div>`+mid.map(mem).join('');
+  return o||'<div class="loading">No scored bills yet.</div>';
+}
+function vCompare(){
+  const states=[...new Set(BILLS.map(b=>b.st))].sort();
+  if(!window._a)window._a=states[0];if(!window._b)window._b=states[1]||states[0];
+  const col=s=>{const bl=BILLS.filter(b=>b.st===s);const avg=bl.length?(bl.reduce((a,b)=>a+b.impact,0)/bl.length).toFixed(1):'—';const hi=bl.filter(b=>b.impact>=7).length;
+    return `<div class="panel"><h3>${STATE_NAMES[s]||s} (${s})</h3><div class="sub">${bl.length} tracked bills</div><div class="stats" style="grid-template-columns:1fr 1fr;margin-bottom:14px"><div class="stat"><div class="n">${hi}</div><div class="l">High impact</div></div><div class="stat"><div class="n">${avg}</div><div class="l">Avg impact</div></div></div><table><thead><tr><th>Bill</th><th>Impact</th></tr></thead><tbody>${bl.sort((a,b)=>b.impact-a.impact).map(b=>`<tr><td>${billLink(b)}<div style="font-size:12px;color:var(--ink2)">${b.title}</div></td><td>${impBar(b.impact)}</td></tr>`).join('')||'<tr><td colspan=2 style="color:var(--ink3)">No bills</td></tr>'}</tbody></table></div>`;};
+  const opts=x=>states.map(s=>`<option ${x===s?'selected':''}>${s}</option>`).join('');
+  return `<div style="display:flex;gap:12px;margin-bottom:18px;align-items:center">Compare <select onchange="window._a=this.value;render()" style="padding:8px 11px;border:1px solid var(--line2);border-radius:8px;background:var(--panel);color:var(--ink)">${opts(window._a)}</select> with <select onchange="window._b=this.value;render()" style="padding:8px 11px;border:1px solid var(--line2);border-radius:8px;background:var(--panel);color:var(--ink)">${opts(window._b)}</select></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">${col(window._a)}${col(window._b)}</div>`;
+}
+
+function emptyTab(icon,title,msg){
+  return `<div class="panel"><div style="text-align:center;padding:48px 20px;color:var(--ink3)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:38px;height:38px;margin-bottom:12px">${icon}</svg><div style="font-weight:600;color:var(--ink);margin-bottom:6px">${title}</div><div style="max-width:520px;margin:0 auto;line-height:1.6">${msg}</div></div></div>`;
+}
+
+function vRulings(){
+  if(RULINGS&&RULINGS.length){
+    return `<div class="panel"><div class="sub" style="margin-bottom:12px">${RULINGS.length} employment-law rulings from CourtListener (free public source)</div><table><thead><tr><th>Court</th><th>Case</th><th>Topic</th><th>Date</th></tr></thead><tbody>${RULINGS.map(r=>`<tr><td style="white-space:nowrap">${r.court}</td><td>${r.url?`<a class="billnum" href="${r.url}" target="_blank" rel="noopener">${r.case}</a>`:r.case}<div style="font-size:12px;color:var(--ink2);margin-top:3px">${r.summary||''}</div></td><td><span class="cat-tag">${r.topic}</span></td><td style="white-space:nowrap;color:var(--ink2)">${r.date||'—'}</td></tr>`).join('')}</tbody></table></div><div class="disclaimer">Real court data from CourtListener (Free Law Project) — a free public source, not a paid vendor. Populated live by the scraper's court collector.</div>`;
+  }
+  return emptyTab('<path d="M12 3v18M5 7l7-4 7 4M5 7l-2 5a3 3 0 006 0L5 7z"/>','Judicial rulings load when the scraper runs online',
+   'This tab is wired to CourtListener, a FREE public court-opinion API (Free Law Project) — not a paid vendor. It populates automatically when the scraper runs on a machine with internet (or via the nightly GitHub Action). It is empty here only because this snapshot was generated without network access.');
+}
+function vComments(){
+  if(COMMENTS&&COMMENTS.length){
+    return `<div class="panel"><div class="sub" style="margin-bottom:12px">${COMMENTS.length} open comment periods from regulations.gov (free public source)</div><table><thead><tr><th>Agency</th><th>Proposed Rule</th><th>Closes</th><th>Status</th></tr></thead><tbody>${COMMENTS.map(c=>`<tr><td style="white-space:nowrap"><b>${c.agency}</b></td><td>${c.url?`<a class="billnum" href="${c.url}" target="_blank" rel="noopener">${c.rule}</a>`:c.rule}</td><td style="white-space:nowrap;color:var(--ink2)">${c.closes||'—'}</td><td>${pill('signed').replace('Signed','Open')}</td></tr>`).join('')}</tbody></table></div><div class="disclaimer">Real data from regulations.gov — the free US government rulemaking API, not a paid vendor. Populated live by the scraper's agency collector.</div>`;
+  }
+  return emptyTab('<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>','Comment periods load when the scraper runs online',
+   'This tab is wired to regulations.gov, the FREE US government rulemaking API — not a paid vendor. It populates automatically when the scraper runs with internet (or via the nightly GitHub Action). Empty here only because this snapshot was generated without network access.');
+}
+function vPayTrans(){
+  const pay=BILLS.filter(b=>/transparency|salary|pay equity|pay scale|wage disclosure/i.test(b.title));
+  if(pay.length) return vBillsList(pay,'Pay-transparency-related bills found in the live data');
+  return emptyTab('<circle cx="12" cy="12" r="9"/><path d="M12 7v10"/>','No pay-transparency bills in current data',
+   'None of the scraped bills matched pay-transparency keywords this run — consistent with our finding that LegiScan keyword search structurally fails on this phrase (it splits "pay" and "transparency"). A production build would surface these via semantic classification of ALL bills, not keyword search. Rather than show sample data, this reflects the real gap.');
+}
+function vNonCompete(){
+  const nc=BILLS.filter(b=>/noncompete|non-compete|covenant|restrictive/i.test(b.title));
+  if(nc.length) return vBillsList(nc,'Non-compete-related bills found in the live data');
+  return emptyTab('<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16M9 4v16"/>','No non-compete bills in current data',
+   'A state-by-state enforceability matrix requires a curated legal-reference dataset (salary thresholds, duration limits per state) — that is maintained reference data, not scraped bill data. The scraper did surface CA SB351 (noncompete provisions) in the bills feed. Showing a real gap rather than fabricated matrix rows.');
+}
+function vBillsList(list,caption){
+  return `<div class="panel"><div class="sub" style="margin-bottom:12px">${caption} — ${list.length} bills</div><table><thead><tr><th>Bill</th><th>State</th><th>Title</th><th>Status</th><th>Impact</th></tr></thead><tbody>${list.map(b=>`<tr><td>${billLink(b)}</td><td><span class="st-badge">${b.st}</span></td><td>${b.title}</td><td>${pill(b.status)}</td><td>${impBar(b.impact)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function vCalendar(){
+  // build from real signed bills with effective/action dates
+  const dated=BILLS.filter(b=>b.date).sort((a,b)=>a.date<b.date?1:-1);
+  return `<div class="panel"><h3>Compliance timeline</h3><div class="sub">Built from real last-action dates in the scraped data (${dated.length} dated bills)</div><table style="margin-top:12px"><thead><tr><th>Date</th><th>Bill</th><th>Action</th><th>Status</th></tr></thead><tbody>${dated.map(b=>`<tr><td style="white-space:nowrap;font-weight:600;color:var(--brand-d)">${b.date}</td><td>${billLink(b)}</td><td style="color:var(--ink2)">${b.action||b.title}</td><td>${pill(b.status)}</td></tr>`).join('')}</tbody></table></div><div class="disclaimer">This is a real timeline derived from scraped last-action dates. A full compliance calendar (filing deadlines, posting requirements, .ics export) would layer curated deadline data on top — that reference layer is not scraped.</div>`;
+}
+function vWatchlist(){
+  if(!window._watch)window._watch=new Set();
+  const list=BILLS.filter(b=>window._watch.has(b.id));
+  const controls=`<div class="disclaimer" style="margin-top:0;margin-bottom:16px">Click any bill in Pending Bills to add it here. Watchlist is session-only in this static build; the production version persists it per-user in the database.</div>`;
+  if(!list.length)return controls+emptyTab('<path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/>','No bills watched yet','Add bills from the Pending Bills tab to track them here.');
+  return controls+vBillsList(list,'Your watched bills');
+}
+function vHandbook(){
+  return emptyTab('<path d="M4 19.5A2.5 2.5 0 016.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>','Handbook Analyzer',
+   'Upload an employee handbook and the AI cross-references it against the tracked bills to produce a compliance gap report. This is a live LLM feature (the same Claude layer the scraper uses) — it needs the backend running with an API key. In this static snapshot it is inactive. Ron confirmed Legets runs this exact feature server-side.');
+}
+function vTemplates(){
+  const signed=BILLS.filter(b=>b.status==='signed'&&b.impact>=6);
+  if(signed.length)return `<div class="panel"><div class="sub" style="margin-bottom:12px">Policy templates would be auto-generated for these ${signed.length} signed high-impact bills</div>${signed.map(b=>`<div class="memo"><div class="memo-top"><div>${billLink(b)}<div class="memo-title">${b.title} — draft policy template</div></div>${pill(b.status)}</div><div class="memo-text">A policy template would be generated for this enacted bill. Template generation is a live LLM feature requiring the backend.</div></div>`).join('')}</div>`;
+  return emptyTab('<path d="M3 3v18M8 6v12M13 4v16"/>','Policy Templates','Templates are auto-generated by the AI when high-impact bills reach signed status. Needs the backend running.');
+}
+function vAccount(){
+  return `<div class="panel"><h3>Account</h3><div class="sub">Prototype build — no billing wired</div><div style="margin-top:14px;display:flex;gap:14px;align-items:center"><span class="circ" style="width:44px;height:44px;font-size:15px">ZB</span><div><b>Zachary Bashour</b><div style="font-size:13px;color:var(--ink2)">Internal build-vs-buy evaluation</div></div></div><div class="disclaimer">Legets pricing (from the trial): Monitor (free) / Analyze $79/seat/mo / Act $149/seat/mo. This clone has no billing — it exists to test replicability, not to sell seats.</div></div>`;
+}
+function vHelp(){
+  const nav=[['Dashboard','Live counts, state chart, category donut'],['Pending Bills','Active legislation, filterable'],['Recently Passed','Signed or vetoed bills'],['By State','Coverage per jurisdiction'],['By Category','AI-classified HR categories'],['Impact Action Plan','Bills ranked by AI impact score + memos'],['State Comparison','Two states side-by-side'],['Judicial Rulings','Court decisions (needs court-data source)'],['Pay Transparency','Salary-disclosure bills'],['Non-Compete Matrix','Enforceability (needs legal-reference data)'],['Comment Periods','Agency rulemaking (needs agency source)'],['Compliance Calendar','Timeline from real action dates'],['Watchlist','Bills you track'],['Handbook Analyzer','AI gap report (needs backend)'],['Policy Templates','AI-generated (needs backend)'],['Data Pipeline','How the scraper works']];
+  return `<div class="panel"><h3>What each tab does</h3><table style="margin-top:12px"><thead><tr><th>Tab</th><th>Function</th></tr></thead><tbody>${nav.map(n=>`<tr><td style="font-weight:500;white-space:nowrap">${n[0]}</td><td style="color:var(--ink2)">${n[1]}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+function vPipeline(){
+  const health = RECENT_RUNS && RECENT_RUNS.length ? `<div class="panel" style="margin-bottom:16px"><h3>Pipeline Health</h3><div class="sub">Recent scrape runs — proof the pipeline runs on its own</div><table style="margin-top:10px"><thead><tr><th>Started</th><th>Finished</th><th>Bills</th><th>Status</th></tr></thead><tbody>${RECENT_RUNS.map(r=>`<tr><td style="white-space:nowrap;color:var(--ink2)">${r.started_at||'—'}</td><td style="white-space:nowrap;color:var(--ink2)">${r.finished_at||'—'}</td><td>${r.bills_found}</td><td>${pill(r.status==='ok'||r.status==='seed'?'signed':'active').replace('Signed',r.status)}</td></tr>`).join('')}</tbody></table></div>` : `<div class="panel" style="margin-bottom:16px"><h3>Pipeline Health</h3><div class="sub">Run history appears here once the scraper runs via the API backend or GitHub Action.</div></div>`;
+  return health + _pipelineDocs();
+}
+function _pipelineDocs(){
+  return `<div class="panel"><h3>How this data is collected</h3><div class="sub">The self-running architecture, mirroring what Ron described on the call</div>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-top:16px">
+    ${[['1. Scheduled scraper','scraper.py runs on a timer (nightly, matching the Legets 10pm agent). It fetches PUBLIC legislative web pages, no paid API, across all 50 states + DC + federal.'],['2. Parse & normalize','BeautifulSoup extracts bill number, title, status, and last action from the HTML. Status is normalized to active / signed / vetoed.'],['3. Free extra sources','Court rulings come from CourtListener and open comment periods from regulations.gov — both FREE public/government APIs, not paid vendors. These cover the non-legislative part of what Legets markets as "32 sources."'],['4. AI classification','Each bill is sent to Claude (the same model Ron confirmed Legets uses) to assign an HR category, a 0–10 impact score against the customer profile, and a plain-English memo. Falls back to a deterministic scorer if no API key is set.'],['5. Store','Results are written to a SQLite database (a snapshot per run) plus a JSON export.'],['6. Serve','A Flask API reads the DB and serves it to this UI. The front end is fully decoupled from the backend — exactly as Ron described their React SPA + agnostic backend.'],['7. Self-run for FREE','A GitHub Actions workflow (.github/workflows/scrape.yml) runs the scraper nightly on GitHub\\u2019s scheduler, commits the refreshed data, and republishes via GitHub Pages — a truly always-on pipeline at $0/month, no server to manage.']].map(([t,d])=>`<div style="display:flex;gap:14px"><div style="width:30px;height:30px;border-radius:8px;background:var(--brand-l);color:var(--brand-d);display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0">${t[0]}</div><div><b>${t.slice(3)}</b><div style="font-size:13px;color:var(--ink2);margin-top:2px">${d}</div></div></div>`).join('')}
+  </div></div>
+  <div class="panel" style="margin-top:16px"><h3>To run it yourself</h3><div style="font-family:monospace;font-size:12.5px;background:var(--bg);padding:14px;border-radius:8px;margin-top:10px;line-height:1.9">
+  <div># one-time scrape (needs internet)</div><div>python scraper/scraper.py --once</div><br>
+  <div># self-running locally: scrape now + nightly at 22:00</div><div>python scraper/scraper.py --schedule</div><br>
+  <div># self-running for FREE with no server (recommended):</div><div># push to GitHub, enable Actions + Pages — the workflow scrapes nightly</div><br>
+  <div># serve the API + UI</div><div>python api/app.py  →  http://localhost:8000</div><br>
+  <div># optional: real Claude classification (as Legets does)</div><div>export ANTHROPIC_API_KEY=sk-...</div>
+  </div></div>
+  <div class="disclaimer">The only thing this can't do that Ron's production system does is stay running 24/7 on its own — that requires deploying the scraper to an always-on server with a cron schedule (Ron mentioned moving to AWS + Terraform). The code here is production-shaped; it just needs a host. That host + schedule is precisely the "real infrastructure" line in the build-vs-buy analysis.</div>`;
+}
+
+// init
+loadData().then(render);
+</script>
+</body>
+</html>

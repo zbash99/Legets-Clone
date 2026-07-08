@@ -1,0 +1,153 @@
+#!/usr/bin/env python3
+"""
+sources.py — additional FREE public-data collectors beyond legislature pages.
+
+These cover the "32 other sources" beyond bill tracking that Legets markets,
+using genuinely free public/government/nonprofit APIs (NOT paid commercial
+data vendors). Two collectors:
+
+  1. CourtListener (free, from Free Law Project) -> employment-law court opinions
+  2. regulations.gov (free US government API) -> open agency comment periods
+
+Both are called by scraper.py. Both degrade gracefully: if the network or API
+is unavailable, they return [] and the pipeline continues.
+
+CourtListener: free API, optional token raises rate limits (set COURTLISTENER_TOKEN).
+regulations.gov: free API key required, get one instantly at
+https://open.gsa.gov/api/regulationsgov/  (set REGULATIONS_GOV_KEY). A demo
+"DEMO_KEY" works at very low rate limits for testing.
+"""
+import os, time, datetime, requests
+
+UA = {"User-Agent": "HRLegTracker/1.0 (internal build-vs-buy eval)"}
+
+# Employment / HR search terms for both sources
+COURT_QUERIES = [
+    "employee meal period", "independent contractor classification",
+    "non-compete enforceability", "paid family leave", "wage and hour overtime",
+    "pay transparency", "workplace discrimination employment",
+]
+REG_QUERIES = [
+    "overtime", "independent contractor", "family leave",
+    "pay data", "workplace safety employment", "minimum wage",
+]
+
+# ---------------------------------------------------------------------------
+# 1. COURT RULINGS  — CourtListener (Free Law Project)
+# ---------------------------------------------------------------------------
+def fetch_court_rulings(limit_per_query=4):
+    """
+    Query CourtListener's free opinion search API for recent employment-law
+    decisions. Returns list of dicts matching our rulings schema.
+    Docs: https://www.courtlistener.com/help/api/rest/
+    """
+    out = []
+    token = os.environ.get("COURTLISTENER_TOKEN")
+    headers = dict(UA)
+    if token:
+        headers["Authorization"] = f"Token {token}"
+    session = requests.Session()
+    seen = set()
+    for q in COURT_QUERIES:
+        try:
+            # v4 search endpoint, opinions, ordered by date filed desc
+            url = "https://www.courtlistener.com/api/rest/v4/search/"
+            params = {"q": q, "type": "o", "order_by": "dateFiled desc"}
+            r = session.get(url, params=params, headers=headers, timeout=25)
+            if r.status_code != 200:
+                print(f"  [courtlistener/{q}] HTTP {r.status_code}")
+                continue
+            data = r.json()
+            for res in (data.get("results") or [])[:limit_per_query]:
+                cid = res.get("cluster_id") or res.get("id")
+                if not cid or cid in seen:
+                    continue
+                seen.add(cid)
+                court = res.get("court") or res.get("court_id") or "Court"
+                case = res.get("caseName") or res.get("caseNameFull") or "Opinion"
+                date = (res.get("dateFiled") or "")[:10]
+                snippet = ""
+                if res.get("opinions"):
+                    snippet = (res["opinions"][0].get("snippet") or "")[:240]
+                url_abs = "https://www.courtlistener.com" + res.get("absolute_url", "")
+                out.append({
+                    "id": f"CL-{cid}",
+                    "court": court if isinstance(court, str) else str(court),
+                    "case": case,
+                    "date": date,
+                    "topic": q,
+                    "summary": snippet or "(opinion text available at source)",
+                    "url": url_abs,
+                    "source": "CourtListener (free)",
+                })
+            time.sleep(1.0)
+        except Exception as e:
+            print(f"  [courtlistener/{q}] ERROR {e}")
+    return out
+
+# ---------------------------------------------------------------------------
+# 2. COMMENT PERIODS — regulations.gov (free US gov API)
+# ---------------------------------------------------------------------------
+def fetch_comment_periods(limit_per_query=4):
+    """
+    Query regulations.gov for open comment periods on employment-related rules.
+    Docs: https://open.gsa.gov/api/regulationsgov/
+    Returns list of dicts matching our comment-period schema.
+    """
+    out = []
+    key = os.environ.get("REGULATIONS_GOV_KEY", "DEMO_KEY")
+    session = requests.Session()
+    seen = set()
+    today = datetime.date.today().isoformat()
+    for q in REG_QUERIES:
+        try:
+            url = "https://api.regulations.gov/v4/documents"
+            params = {
+                "filter[searchTerm]": q,
+                "filter[documentType]": "Proposed Rule",
+                "filter[commentEndDate][ge]": today,   # still open
+                "sort": "-postedDate",
+                "page[size]": limit_per_query,
+                "api_key": key,
+            }
+            r = session.get(url, params=params, headers=UA, timeout=25)
+            if r.status_code == 429:
+                print("  [regulations.gov] rate limited (DEMO_KEY?). Get a free key for full access.")
+                break
+            if r.status_code != 200:
+                print(f"  [regulations.gov/{q}] HTTP {r.status_code}")
+                continue
+            data = r.json()
+            for doc in data.get("data", []):
+                did = doc.get("id")
+                if not did or did in seen:
+                    continue
+                seen.add(did)
+                a = doc.get("attributes", {})
+                out.append({
+                    "id": f"REG-{did}",
+                    "agency": a.get("agencyId", "Agency"),
+                    "rule": a.get("title", "Proposed Rule"),
+                    "closes": (a.get("commentEndDate") or "")[:10],
+                    "status": "Open",
+                    "summary": (a.get("title") or "")[:240],
+                    "url": f"https://www.regulations.gov/document/{did}",
+                    "source": "regulations.gov (free)",
+                })
+            time.sleep(1.0)
+        except Exception as e:
+            print(f"  [regulations.gov/{q}] ERROR {e}")
+    return out
+
+
+if __name__ == "__main__":
+    print("Testing CourtListener...")
+    r = fetch_court_rulings(2)
+    print(f"  {len(r)} rulings")
+    for x in r[:3]:
+        print("   -", x["case"], "|", x["date"])
+    print("Testing regulations.gov...")
+    c = fetch_comment_periods(2)
+    print(f"  {len(c)} comment periods")
+    for x in c[:3]:
+        print("   -", x["agency"], "|", x["rule"][:50])
