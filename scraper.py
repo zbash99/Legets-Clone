@@ -20,7 +20,7 @@ Requires: requests, beautifulsoup4, lxml  (+ optional anthropic for live AI clas
 import argparse, sqlite3, time, re, sys, os, json, datetime, urllib.parse
 import requests
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "legets.db")
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "legets.db")
 UA = {"User-Agent": "Mozilla/5.0 (compatible; HRLegTracker/1.0; internal-eval)"}
 
 # HR-relevant search topics. Each becomes a scraped query against public pages.
@@ -316,10 +316,10 @@ def export_json(con):
     snapshot = {"generated_at": run[1] if run else None,
                 "bill_count": len(bills), "bills": bills,
                 "rulings": rulings, "comments": comments}
-    out = os.path.join(os.path.dirname(__file__), "..", "web", "data.json")
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.json")
     with open(out, "w") as f:
         json.dump(snapshot, f, indent=2)
-    print(f"  exported {len(bills)} bills, {len(rulings)} rulings, {len(comments)} comments -> web/data.json")
+    print(f"  exported {len(bills)} bills, {len(rulings)} rulings, {len(comments)} comments -> {out}")
 
 
 def run_schedule():
