@@ -46,12 +46,12 @@ TOPICS = [
     ("overtime", "Payroll"),
 ]
 
-# States to cover. Legets covers 51 (50 + DC). This list IS the coverage knob —
-# now the full set to match Legets' "51 jurisdictions" claim. US = federal/Congress.
-STATES = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL",
-          "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE",
-          "NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD",
-          "TN","TX","UT","VT","VA","WA","WV","WI","WY","US"]
+# States to cover. Trimmed to a strong, high-activity set rather than all 51 —
+# broad single/multi-word searches across all 50 states produced excessive
+# noise (15,000+ mostly-irrelevant bills in testing). This list is easy to
+# expand later once search precision is tuned further.
+STATES = ["CA","IL","TX","FL","CO","NY","WA","MA","NJ","MN","PA","OH",
+          "NC","GA","VA","MI","OR","CT","MD","US"]
 
 # ---------------------------------------------------------------------------
 # DB
@@ -95,7 +95,12 @@ def legiscan_search(state, query, session, api_key):
     """
     out = []
     url = "https://api.legiscan.com/"
-    params = {"key": api_key, "op": "getSearch", "state": state, "query": query}
+    # Multi-word topics are quoted as exact phrases — LegiScan's default matching
+    # is OR-across-words, which returns heavy noise on broad terms (confirmed
+    # earlier in this evaluation: "employment" alone returned 397 mostly
+    # irrelevant bills). Phrase-quoting cuts that dramatically.
+    q = f'"{query}"' if " " in query else query
+    params = {"key": api_key, "op": "getSearch", "state": state, "query": q}
     try:
         r = session.get(url, params=params, headers=UA, timeout=20)
         if r.status_code != 200:
@@ -285,9 +290,12 @@ def run_once():
     except Exception as e:
         print(f"  [sources] skipped: {e}")
 
+    print("checkpoint: committing to DB...")
     con.commit()
+    print("checkpoint: exporting JSON...")
     # also export a JSON snapshot the static UI can read directly
     export_json(con)
+    print("checkpoint: closing DB connection...")
     con.close()
     print(f"[{finished}] done — {len(seen)} unique bills written to DB + JSON snapshot")
 
@@ -340,7 +348,7 @@ if __name__ == "__main__":
             run_schedule()
         else:
             run_once()
-    except Exception:
+    except BaseException:
         import traceback
         print("=== SCRAPER FAILED — full traceback below ===", file=sys.stderr)
         traceback.print_exc()
