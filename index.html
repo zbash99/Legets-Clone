@@ -102,9 +102,11 @@ td{padding:11px;border-bottom:1px solid var(--line);font-size:13px}tbody tr:hove
   </div>
 </div>
 <script>
-let BILLS=[], STATS=null, GENERATED_AT=null, DATA_SOURCE='', RULINGS=[], COMMENTS=[], RECENT_RUNS=[];
+let BILLS=[], STATS=null, GENERATED_AT=null, DATA_SOURCE='', RULINGS=[], COMMENTS=[], RECENT_RUNS=[], NEWS=[];
 const CAT_COLORS={"Employee Relations":"#7C6BD8","Payroll":"#16B47F","Benefits":"#3E7BD6","Employment Taxes":"#E07AA8","Recruiting":"#E0952B","Termination":"#5BA9C4","Disability":"#9B8BE0","Other":"#D8563B"};
-const STATE_NAMES={CA:"California",IL:"Illinois",TX:"Texas",FL:"Florida",CO:"Colorado",US:"Federal",NY:"New York",WA:"Washington"};
+const STATE_NAMES={AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"District of Columbia",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming",US:"Federal"};
+// Tile-grid cartogram positions [row,col] — a standard, reliable US map style
+const STATE_GRID={AK:[0,0],ME:[0,10],VT:[1,9],NH:[1,10],WA:[2,0],ID:[2,1],MT:[2,2],ND:[2,3],MN:[2,4],IL:[2,5],WI:[2,6],MI:[2,7],NY:[2,9],RI:[2,10],MA:[2,11],OR:[3,0],NV:[3,1],WY:[3,2],SD:[3,3],IA:[3,4],IN:[3,5],OH:[3,6],PA:[3,7],NJ:[3,8],CT:[3,9],CA:[4,0],UT:[4,1],CO:[4,2],NE:[4,3],MO:[4,4],KY:[4,5],WV:[4,6],VA:[4,7],MD:[4,8],DE:[4,9],AZ:[5,1],NM:[5,2],KS:[5,3],AR:[5,4],TN:[5,5],NC:[5,6],SC:[5,7],DC:[5,8],OK:[6,3],LA:[6,4],MS:[6,5],AL:[6,6],GA:[6,7],HI:[7,0],TX:[7,3],FL:[7,8]};
 let view='dashboard',sort={k:'impact',d:-1},filters={q:'',st:'',cat:'',status:''};
 
 // ---- DATA LOADING: try live API first, fall back to static snapshot ----
@@ -114,12 +116,13 @@ async function loadData(){
     if(r.ok){BILLS=await r.json();const s=await fetch('/api/stats');STATS=await s.json();GENERATED_AT=STATS.last_run;RECENT_RUNS=STATS.recent_runs||[];
       try{RULINGS=await (await fetch('/api/rulings')).json();}catch(e){RULINGS=[];}
       try{COMMENTS=await (await fetch('/api/comments')).json();}catch(e){COMMENTS=[];}
+      try{NEWS=await (await fetch('/api/news')).json();}catch(e){NEWS=[];}
       DATA_SOURCE='live API (Flask backend + scraper DB)';return;}
     throw new Error('no api');
   }catch(e){
     try{
       const r=await fetch('data.json');const d=await r.json();
-      BILLS=d.bills;GENERATED_AT=d.generated_at;RULINGS=d.rulings||[];COMMENTS=d.comments||[];
+      BILLS=d.bills;GENERATED_AT=d.generated_at;RULINGS=d.rulings||[];COMMENTS=d.comments||[];NEWS=d.news||[];
       DATA_SOURCE='static snapshot (data.json from last scrape)';
     }catch(e2){
       BILLS=[];DATA_SOURCE='no data — run the scraper first';
@@ -134,6 +137,9 @@ function billLink(b){return b.url?`<a class="billnum" href="${b.url}" target="_b
 function toggleWatch(id,e){if(e)e.stopPropagation();if(!window._watch)window._watch=new Set();window._watch.has(id)?window._watch.delete(id):window._watch.add(id);render();}
 
 document.getElementById('nav').addEventListener('click',e=>{const it=e.target.closest('.nav-item');if(it){view=it.dataset.v;document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n===it));render();window.scrollTo(0,0);}});
+function nav(v){view=v;document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.v===v));render();window.scrollTo(0,0);}
+function navState(s){filters={q:'',st:s,cat:'',status:''};nav('pending');}
+function navCat(c){filters={q:'',st:'',cat:c,status:''};nav('pending');}
 const TITLES={dashboard:['Dashboard','Live snapshot from scraped data'],pending:['Pending Bills','Active legislation'],passed:['Recently Passed','Signed or vetoed bills'],bystate:['By State','Coverage by jurisdiction'],bycat:['By Category','HR category breakdown'],impact:['Impact Action Plan','Bills ranked by AI impact score'],compare:['State Comparison','Compare two states side-by-side'],rulings:['Judicial Rulings','Court decisions affecting employment law'],paytrans:['Pay Transparency','State salary-disclosure requirements'],noncompete:['Non-Compete Matrix','State-by-state enforceability'],comments:['Comment Periods','Open regulatory comment windows'],calendar:['Compliance Calendar','Federal and state HR deadlines'],watchlist:['Watchlist','Bills you are tracking'],handbook:['Handbook Analyzer','Cross-reference your handbook against legislation'],templates:['Policy Templates','AI-generated policy templates'],account:['Account & Billing','Manage your subscription'],help:['Help & Documentation','Get the most out of the platform'],pipeline:['Data Pipeline','How this data is collected']};
 
 function render(){
@@ -164,7 +170,7 @@ function render(){
     case'pipeline':body=vPipeline();break;
   }
   document.getElementById('content').innerHTML=banner+head+body;
-  if(view==='dashboard')drawDonut();
+  if(view==='dashboard'){drawDonut();drawMap();}
   if(view==='pending'||view==='passed')bindFilters();
 }
 
@@ -184,9 +190,69 @@ function vDash(){
     ${stat('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M4 12h16M4 17h16"/></svg>','ico-blue',Object.keys(cats).length,'Categories','HR classifications')}
   </div>`;
   const entries=Object.entries(cats).sort((a,b)=>b[1]-a[1]);
-  const donut=`<div class="grid2"><div class="panel"><h3>Bills by State</h3><div class="sub">Real coverage from last scrape</div>${barChart()}</div><div class="panel"><h3>Bills by Category</h3><div class="sub">AI-classified</div><div class="donut-wrap"><div id="donut"></div><div class="donut-legend">${entries.map(([c,n])=>`<div class="row"><span class="dot" style="background:${CAT_COLORS[c]||'#999'}"></span>${c}<span class="cnt">${n}</span></div>`).join('')}</div></div></div></div>`;
-  return pulse+stats+donut+`<div class="disclaimer">This build mirrors Ron's architecture: a scheduled scraper collects public legislative data → SQLite DB → this UI reads it via API (or a static snapshot). The scraper runs unattended (<code>--schedule</code> mode, nightly at 22:00, matching the Legets 10pm agent). The one piece a prototype can't include is an always-on host — that's a server + cron, which is the actual production infrastructure.</div>`;
+  const mapPanel=`<div class="grid2"><div class="panel"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div><h3>Legislative Activity by State</h3><div class="sub">Click any state to explore · grayed = not in current coverage</div></div><div id="mapToggle" style="display:flex;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:12px"><button onclick="mapMode='activity';drawMap()" id="mtA" style="border:none;padding:5px 12px;cursor:pointer;background:var(--brand-l);color:var(--brand-d);font-weight:600">Activity</button><button onclick="mapMode='risk';drawMap()" id="mtR" style="border:none;padding:5px 12px;cursor:pointer;background:transparent;color:var(--ink3)">Risk Score</button></div></div><div id="usmap"></div></div><div class="panel"><h3>Bills by Category</h3><div class="sub">AI-classified · click to filter</div><div class="donut-wrap"><div id="donut"></div><div class="donut-legend">${entries.map(([c,n])=>`<div class="row" style="cursor:pointer" onclick="navCat('${c}')"><span class="dot" style="background:${CAT_COLORS[c]||'#999'}"></span>${c}<span class="cnt">${n}</span></div>`).join('')}</div></div></div></div>`;
+
+  // Upcoming effective dates — real signed/enrolled bills with future-ish dates
+  const eff = BILLS.filter(b=>b.status==='signed'&&b.date).sort((a,b)=>b.date<a.date?1:-1).slice(0,8);
+  const effPanel=`<div class="panel"><div style="display:flex;justify-content:space-between;align-items:center"><h3>Recently Effective / Signed</h3><span style="font-size:12px;color:var(--brand-d);cursor:pointer" onclick="nav('passed')">View all →</span></div><div class="sub">Enacted bills, most recent first</div>${eff.length?eff.map(b=>`<div style="display:flex;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer" onclick="navState('${b.st}')"><div style="text-align:center;min-width:44px"><div style="font-size:11px;font-weight:700;color:var(--brand-d)">${(b.date||'').slice(5)}</div><div style="font-size:10px;color:var(--ink3)">${(b.date||'').slice(0,4)}</div></div><div style="flex:1;font-size:13px">${b.title}<div style="font-size:11px;color:var(--ink3)">${STATE_NAMES[b.st]||b.st} · ${b.action||'signed'}</div></div><div class="imp"><div class="bar"><div class="fill ${b.impact>=7?'f-hi':b.impact>=4?'f-mid':'f-lo'}" style="width:${b.impact*10}%"></div></div><span class="n">${b.impact}</span></div></div>`).join(''):'<div style="padding:20px;text-align:center;color:var(--ink3)">No enacted bills in current data</div>'}</div>`;
+
+  // Latest HR news — real RSS
+  const newsPanel=`<div class="panel"><div style="display:flex;justify-content:space-between;align-items:center"><h3>Latest HR News</h3><span style="font-size:12px;color:var(--ink3)">free RSS feeds</span></div><div class="sub">HR Dive · JD Supra · SHRM</div>${NEWS&&NEWS.length?NEWS.slice(0,6).map(n=>`<a href="${n.url}" target="_blank" rel="noopener" style="display:block;padding:9px 0;border-bottom:1px solid var(--line)"><div style="font-size:13px;font-weight:500;color:var(--ink)">${n.title}</div><div style="font-size:11px;color:var(--ink3);margin-top:2px">${n.source}${n.published?' · '+n.published.slice(0,16):''}</div></a>`).join(''):'<div style="padding:20px;text-align:center;color:var(--ink3)">News populates on the next scrape (RSS feeds fetched nightly).</div>'}</div>`;
+
+  const bottomGrid=`<div class="grid2" style="margin-top:20px">${newsPanel}${effPanel}</div>`;
+  return pulse+stats+mapPanel+bottomGrid+`<div class="disclaimer">Live data via LegiScan\\'s free API, refreshed nightly by a GitHub Actions workflow at $0/month. Map, news, and effective-dates panels all draw from the same nightly pipeline. See the Data Pipeline tab for how it works.</div>`;
 }
+let mapMode='activity';
+function drawMap(){
+  const el=document.getElementById('usmap');if(!el)return;
+  document.getElementById('mtA').style.background=mapMode==='activity'?'var(--brand-l)':'transparent';
+  document.getElementById('mtA').style.color=mapMode==='activity'?'var(--brand-d)':'var(--ink3)';
+  document.getElementById('mtA').style.fontWeight=mapMode==='activity'?'600':'400';
+  document.getElementById('mtR').style.background=mapMode==='risk'?'var(--brand-l)':'transparent';
+  document.getElementById('mtR').style.color=mapMode==='risk'?'var(--brand-d)':'var(--ink3)';
+  document.getElementById('mtR').style.fontWeight=mapMode==='risk'?'600':'400';
+  const cnt={},imp={};
+  BILLS.forEach(b=>{cnt[b.st]=(cnt[b.st]||0)+1;(imp[b.st]=imp[b.st]||[]).push(b.impact);});
+  const val=s=>{if(mapMode==='risk'){if(!imp[s])return null;return imp[s].reduce((a,b)=>a+b,0)/imp[s].length;}return cnt[s]||null;};
+  const shade=v=>{ // purple scale
+    if(v===null||v===undefined)return 'var(--line)';
+    if(mapMode==='risk'){if(v>=7)return '#4C1D95';if(v>=5.5)return '#6D28D9';if(v>=4)return '#8B5CF6';if(v>=2.5)return '#C4B5FD';return '#EDE9FE';}
+    if(v>=26)return '#4C1D95';if(v>=16)return '#6D28D9';if(v>=9)return '#8B5CF6';if(v>=4)return '#A78BFA';if(v>=1)return '#C4B5FD';return '#EDE9FE';
+  };
+  const cols=12, rows=8, gap=4, cell=52;
+  const W=cols*(cell+gap), H=rows*(cell+gap);
+  let tiles='';
+  for(const [s,[r,c]] of Object.entries(STATE_GRID)){
+    const v=val(s);
+    const x=c*(cell+gap), y=r*(cell+gap);
+    const fill=shade(v);
+    const dark = v!==null && ((mapMode==='risk'&&v>=5.5)||(mapMode==='activity'&&v>=16));
+    const tc = dark?'#fff':(v===null?'var(--ink3)':'#4C1D95');
+    tiles+=`<g style="cursor:${v!==null?'pointer':'default'}" ${v!==null?`onclick="navState('${s}')"`:''} onmousemove="mapTip(event,'${s}')" onmouseleave="mapHide()">
+      <rect x="${x}" y="${y}" width="${cell}" height="${cell}" rx="7" fill="${fill}"/>
+      <text x="${x+cell/2}" y="${y+cell/2+4}" text-anchor="middle" font-size="13" font-weight="600" fill="${tc}">${s}</text></g>`;
+  }
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:640px;display:block;margin:0 auto"><style>#usmap text{font-family:Inter,sans-serif}</style>${tiles}</svg>
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink3);margin-top:10px;flex-wrap:wrap">Bills tracked:
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#EDE9FE"></span>0
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#C4B5FD"></span>1-3
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#A78BFA"></span>4-8
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#8B5CF6"></span>9-15
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#6D28D9"></span>16-25
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:#4C1D95"></span>26+
+      <span style="display:inline-block;width:22px;height:12px;border-radius:2px;background:var(--line)"></span>N/A
+    </div>
+    <div id="mapTip" style="position:fixed;display:none;background:var(--ink);color:#fff;padding:7px 11px;border-radius:8px;font-size:12px;pointer-events:none;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.2)"></div>`;
+}
+function mapTip(e,s){
+  const t=document.getElementById('mapTip');if(!t)return;
+  const cnt=BILLS.filter(b=>b.st===s).length;
+  const imps=BILLS.filter(b=>b.st===s).map(b=>b.impact);
+  const avg=imps.length?(imps.reduce((a,b)=>a+b,0)/imps.length).toFixed(1):null;
+  t.style.display='block';t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY+14)+'px';
+  t.innerHTML=cnt?`<b>${STATE_NAMES[s]||s}</b><br>${cnt} bills tracked<br>Avg impact: ${avg}/10<br><span style="color:var(--brand)">Click to explore →</span>`:`<b>${STATE_NAMES[s]||s}</b><br>Not in current coverage`;
+}
+function mapHide(){const t=document.getElementById('mapTip');if(t)t.style.display='none';}
 function barChart(){
   const c={};BILLS.forEach(b=>c[b.st]=(c[b.st]||0)+1);
   const e=Object.entries(c).sort((a,b)=>b[1]-a[1]);const max=Math.max(...e.map(x=>x[1]));
