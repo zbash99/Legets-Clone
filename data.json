@@ -1,10 +1,18 @@
 {
-  "generated_at": "2026-11-15T13:30:39+00:00",
+  "generated_at": "2026-11-16T14:57:43+00:00",
   "bill_count": 0,
   "bills": [],
   "rulings": [],
   "comments": [],
   "news": [
+    {
+      "id": "https://www.hrdive.com/spons/how-to-take-the-chaos-and-cost-out-of-cross-border-payroll/873538/",
+      "title": "How to take the chaos \u2014 and cost \u2014 out of cross-border payroll",
+      "summary": "The right payroll platform can meaningfully improve the process of paying a distributed, growing workforce.",
+      "source": "HR Dive",
+      "published": "Mon, 16 Nov 2026 05:00:00 -0500",
+      "url": "https://www.hrdive.com/spons/how-to-take-the-chaos-and-cost-out-of-cross-border-payroll/873538/"
+    },
     {
       "id": "https://www.hrdive.com/news/cfo-job-descriptions-are-outdated-experts-say/874616/",
       "title": "CFO job descriptions are outdated, experts say",
@@ -76,14 +84,6 @@
       "source": "HR Dive",
       "published": "Wed, 11 Nov 2026 15:55:00 -0500",
       "url": "https://www.hrdive.com/news/religious-discrimination-at-work-2027/874418/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/back-to-basics-who-is-a-similarly-situated-comparator-under-title-vii/874423/",
-      "title": "Back to Basics: Who is a \u2018similarly situated comparator\u2019 under Title VII?",
-      "summary": "It&rsquo;s a key element of workplace discrimination claims, but federal courts vary in terms of how they interpret similarity, attorneys told HR Dive.",
-      "source": "HR Dive",
-      "published": "Wed, 11 Nov 2026 15:52:00 -0500",
-      "url": "https://www.hrdive.com/news/back-to-basics-who-is-a-similarly-situated-comparator-under-title-vii/874423/"
     }
   ]
 }
