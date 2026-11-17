@@ -1,10 +1,58 @@
 {
-  "generated_at": "2026-11-16T14:57:43+00:00",
+  "generated_at": "2026-11-17T15:35:02+00:00",
   "bill_count": 0,
   "bills": [],
   "rulings": [],
   "comments": [],
   "news": [
+    {
+      "id": "https://www.hrdive.com/news/iowa-district-to-settle-with-recruiting-firm-after-ex-superintendents-ice/874743/",
+      "title": "Iowa district to settle with recruiting firm after ex-superintendent\u2019s ICE arrest",
+      "summary": "The former Des Moines school leader overstayed his visa, according to ICE. In response, the district sued a firm it claimed should have prevented his hiring.",
+      "source": "HR Dive",
+      "published": "Mon, 16 Nov 2026 16:04:00 -0500",
+      "url": "https://www.hrdive.com/news/iowa-district-to-settle-with-recruiting-firm-after-ex-superintendents-ice/874743/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/spacex-cant-force-retaliation-claim-into-arbitration-9th-circuit-holds/874759/",
+      "title": "SpaceX can\u2019t force retaliation claim into arbitration, 9th Circuit holds",
+      "summary": "The Ending Forced Arbitration Act allows the former employees to pursue in court a claim they were fired for raising concerns about sexual harassment, which they alleged founder Elon Musk normalized through social media.",
+      "source": "HR Dive",
+      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
+      "url": "https://www.hrdive.com/news/spacex-cant-force-retaliation-claim-into-arbitration-9th-circuit-holds/874759/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/sec-aims-to-pare-back-executive-comp-disclosure-rules/874767/",
+      "title": "SEC aims to pare back executive comp disclosure rules",
+      "summary": "Under a new proposal, public companies would get more flexibility to determine whether certain perks are &ldquo;integrally and directly related&rdquo; to an executive&rsquo;s job.",
+      "source": "HR Dive",
+      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
+      "url": "https://www.hrdive.com/news/sec-aims-to-pare-back-executive-comp-disclosure-rules/874767/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/feds-seek-overhaul-of-permanent-immigrant-worker-regulations/874803/",
+      "title": "Feds seek overhaul of permanent immigrant worker regulations",
+      "summary": "The sweeping update aims to give U.S. workers &ldquo;fair consideration and first access to job opportunities,&rdquo; Secretary of Labor Keith Sonderling said on Monday.",
+      "source": "HR Dive",
+      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
+      "url": "https://www.hrdive.com/news/feds-seek-overhaul-of-permanent-immigrant-worker-regulations/874803/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/pwc-critical-thinking-assessment/874778/",
+      "title": "Want to combat AI brainrot? PwC is piloting a way to do so.",
+      "summary": "Several studies indicate that workers assigned to use AI recognize its negative cognitive effects.",
+      "source": "HR Dive",
+      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
+      "url": "https://www.hrdive.com/news/pwc-critical-thinking-assessment/874778/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/ex-chanel-worker-alleging-age-bias-claims-told-to-dress-young/874730/",
+      "title": "Ex-Chanel worker alleging age bias claims she was told to \u2018dress young\u2019",
+      "summary": "The plaintiff also alleged that she was pressured to exceed medical restrictions placed by her doctor following a stroke.",
+      "source": "HR Dive",
+      "published": "Mon, 16 Nov 2026 10:14:00 -0500",
+      "url": "https://www.hrdive.com/news/ex-chanel-worker-alleging-age-bias-claims-told-to-dress-young/874730/"
+    },
     {
       "id": "https://www.hrdive.com/spons/how-to-take-the-chaos-and-cost-out-of-cross-border-payroll/873538/",
       "title": "How to take the chaos \u2014 and cost \u2014 out of cross-border payroll",
@@ -36,54 +84,6 @@
       "source": "HR Dive",
       "published": "Fri, 13 Nov 2026 15:34:00 -0500",
       "url": "https://www.hrdive.com/news/annual-401k-limit-pushed-to-25500-for-2027-irs/874668/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/can-ai-root-out-manager-bias/874657/",
-      "title": "Week in review: Can AI root out manager bias?",
-      "summary": "We&rsquo;re rounding up last week&rsquo;s stories, including a single case&rsquo;s effect on diversity and inclusion programming and how artificial intelligence is deferring jobs.",
-      "source": "HR Dive",
-      "published": "Fri, 13 Nov 2026 15:34:00 -0500",
-      "url": "https://www.hrdive.com/news/can-ai-root-out-manager-bias/874657/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/many-executives-say-they-are-worried-about-leading-with-empathy/874529/",
-      "title": "Many executives say they are worried about leading with empathy",
-      "summary": "Faced with pressure to &ldquo;place winning bets on AI,&rdquo; C-suite executives are deprioritizing employee well-being, culture and retention, Businessolver said.",
-      "source": "HR Dive",
-      "published": "Thu, 12 Nov 2026 15:27:00 -0500",
-      "url": "https://www.hrdive.com/news/many-executives-say-they-are-worried-about-leading-with-empathy/874529/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/the-number-of-ceos-exiting-due-to-misconduct-has-doubled-compared-to-2024/874528/",
-      "title": "CEO exits due to misconduct have doubled compared to 2024",
-      "summary": "&ldquo;It&rsquo;s not just a question of romance or morality anymore. It&rsquo;s a question of judgment,&rdquo; said Andy Challenger, chief revenue officer for Challenger, Gray &amp; Christmas.",
-      "source": "HR Dive",
-      "published": "Thu, 12 Nov 2026 15:27:00 -0500",
-      "url": "https://www.hrdive.com/news/the-number-of-ceos-exiting-due-to-misconduct-has-doubled-compared-to-2024/874528/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/working-remotely-at-the-office-federal-reserve-bank-new-york/874517/",
-      "title": "\u2018Remote work\u2019 from the office? It\u2019s more common than you think.",
-      "summary": "Diffuse teams and a general submission to digital platforms are undermining employers&rsquo; stated reasons for returning to the office, research from the Federal Reserve Bank of New York found.",
-      "source": "HR Dive",
-      "published": "Thu, 12 Nov 2026 15:27:00 -0500",
-      "url": "https://www.hrdive.com/news/working-remotely-at-the-office-federal-reserve-bank-new-york/874517/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/7-stories-on-benefits-amid-open-enrollment/874477/",
-      "title": "7 stories on benefits amid open enrollment",
-      "summary": "As healthcare costs continue to spike, it seems no amount of planning is too much.",
-      "source": "HR Dive",
-      "published": "Thu, 12 Nov 2026 10:10:00 -0500",
-      "url": "https://www.hrdive.com/news/7-stories-on-benefits-amid-open-enrollment/874477/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/religious-discrimination-at-work-2027/874418/",
-      "title": "A wave of religious discrimination claims is coming, attorneys say",
-      "summary": "Thanks to EEOC Chair Andrea Lucas&rsquo; enforcement priorities, employers may need to be on the lookout for such claims, according to ABA LEL speakers.",
-      "source": "HR Dive",
-      "published": "Wed, 11 Nov 2026 15:55:00 -0500",
-      "url": "https://www.hrdive.com/news/religious-discrimination-at-work-2027/874418/"
     }
   ]
 }
