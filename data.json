@@ -1,10 +1,50 @@
 {
-  "generated_at": "2026-11-17T15:35:02+00:00",
+  "generated_at": "2026-11-18T15:12:23+00:00",
   "bill_count": 0,
   "bills": [],
   "rulings": [],
   "comments": [],
   "news": [
+    {
+      "id": "https://www.hrdive.com/news/employer-benefits-hold-steady-despite-unstable-macroeconomic-conditions/874945/",
+      "title": "Employer benefits hold steady despite unstable macroeconomic conditions",
+      "summary": "Although costs are increasing, employers are trying to protect benefits and safeguard against worker attrition, according to a new study.",
+      "source": "HR Dive",
+      "published": "Tue, 17 Nov 2026 15:54:00 -0500",
+      "url": "https://www.hrdive.com/news/employer-benefits-hold-steady-despite-unstable-macroeconomic-conditions/874945/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/keep-calm-and-dei-on-organizations-with-a-steady-hand-at-diversity-work-shrm/874910/",
+      "title": "Keeping D&I approach \u2018steady\u2019 is linked to stronger outcomes, SHRM finds",
+      "summary": "&ldquo;Leaders can adapt how they do the work and still be clear about the commitment,&rdquo; said Carolynn Johnson of SHRM&rsquo;s Center for Inclusion &amp; Diversity.",
+      "source": "HR Dive",
+      "published": "Tue, 17 Nov 2026 15:54:00 -0500",
+      "url": "https://www.hrdive.com/news/keep-calm-and-dei-on-organizations-with-a-steady-hand-at-diversity-work-shrm/874910/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/irs-lays-out-401k-plan-autoenrollment-guidelines-set-to-begin-in-2028/874953/",
+      "title": "IRS lays out 401(k) auto-enrollment guidelines to begin in 2028",
+      "summary": "The change could increase savings by an average of $4.2 billion per year, the agency said Tuesday.",
+      "source": "HR Dive",
+      "published": "Tue, 17 Nov 2026 15:54:00 -0500",
+      "url": "https://www.hrdive.com/news/irs-lays-out-401k-plan-autoenrollment-guidelines-set-to-begin-in-2028/874953/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/rto-policies-that-prioritize-employees-work-better/874760/",
+      "title": "RTO policies that prioritize employees work better",
+      "summary": "If an employer asks workers to come into the workplace, it should make sure being there is valuable, writes Darlene Engoglia of Park Place Technologies.",
+      "source": "HR Dive",
+      "published": "Tue, 17 Nov 2026 15:53:00 -0500",
+      "url": "https://www.hrdive.com/news/rto-policies-that-prioritize-employees-work-better/874760/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/ai-adoption-skillbuilding-tailored-training/874885/",
+      "title": "Why AI skill-building is only one part of the puzzle",
+      "summary": "A Hogan Assessments report highlighted how AI adoption is not just a &ldquo;technology challenge, but also a people and workplace challenge.&rdquo;",
+      "source": "HR Dive",
+      "published": "Tue, 17 Nov 2026 11:54:00 -0500",
+      "url": "https://www.hrdive.com/news/ai-adoption-skillbuilding-tailored-training/874885/"
+    },
     {
       "id": "https://www.hrdive.com/news/iowa-district-to-settle-with-recruiting-firm-after-ex-superintendents-ice/874743/",
       "title": "Iowa district to settle with recruiting firm after ex-superintendent\u2019s ICE arrest",
@@ -12,30 +52,6 @@
       "source": "HR Dive",
       "published": "Mon, 16 Nov 2026 16:04:00 -0500",
       "url": "https://www.hrdive.com/news/iowa-district-to-settle-with-recruiting-firm-after-ex-superintendents-ice/874743/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/spacex-cant-force-retaliation-claim-into-arbitration-9th-circuit-holds/874759/",
-      "title": "SpaceX can\u2019t force retaliation claim into arbitration, 9th Circuit holds",
-      "summary": "The Ending Forced Arbitration Act allows the former employees to pursue in court a claim they were fired for raising concerns about sexual harassment, which they alleged founder Elon Musk normalized through social media.",
-      "source": "HR Dive",
-      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
-      "url": "https://www.hrdive.com/news/spacex-cant-force-retaliation-claim-into-arbitration-9th-circuit-holds/874759/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/sec-aims-to-pare-back-executive-comp-disclosure-rules/874767/",
-      "title": "SEC aims to pare back executive comp disclosure rules",
-      "summary": "Under a new proposal, public companies would get more flexibility to determine whether certain perks are &ldquo;integrally and directly related&rdquo; to an executive&rsquo;s job.",
-      "source": "HR Dive",
-      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
-      "url": "https://www.hrdive.com/news/sec-aims-to-pare-back-executive-comp-disclosure-rules/874767/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/feds-seek-overhaul-of-permanent-immigrant-worker-regulations/874803/",
-      "title": "Feds seek overhaul of permanent immigrant worker regulations",
-      "summary": "The sweeping update aims to give U.S. workers &ldquo;fair consideration and first access to job opportunities,&rdquo; Secretary of Labor Keith Sonderling said on Monday.",
-      "source": "HR Dive",
-      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
-      "url": "https://www.hrdive.com/news/feds-seek-overhaul-of-permanent-immigrant-worker-regulations/874803/"
     },
     {
       "id": "https://www.hrdive.com/news/pwc-critical-thinking-assessment/874778/",
@@ -46,44 +62,28 @@
       "url": "https://www.hrdive.com/news/pwc-critical-thinking-assessment/874778/"
     },
     {
-      "id": "https://www.hrdive.com/news/ex-chanel-worker-alleging-age-bias-claims-told-to-dress-young/874730/",
-      "title": "Ex-Chanel worker alleging age bias claims she was told to \u2018dress young\u2019",
-      "summary": "The plaintiff also alleged that she was pressured to exceed medical restrictions placed by her doctor following a stroke.",
+      "id": "https://www.hrdive.com/news/feds-seek-overhaul-of-permanent-immigrant-worker-regulations/874803/",
+      "title": "Feds seek overhaul of permanent immigrant worker regulations",
+      "summary": "The sweeping update aims to give U.S. workers &ldquo;fair consideration and first access to job opportunities,&rdquo; Secretary of Labor Keith Sonderling said on Monday.",
       "source": "HR Dive",
-      "published": "Mon, 16 Nov 2026 10:14:00 -0500",
-      "url": "https://www.hrdive.com/news/ex-chanel-worker-alleging-age-bias-claims-told-to-dress-young/874730/"
+      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
+      "url": "https://www.hrdive.com/news/feds-seek-overhaul-of-permanent-immigrant-worker-regulations/874803/"
     },
     {
-      "id": "https://www.hrdive.com/spons/how-to-take-the-chaos-and-cost-out-of-cross-border-payroll/873538/",
-      "title": "How to take the chaos \u2014 and cost \u2014 out of cross-border payroll",
-      "summary": "The right payroll platform can meaningfully improve the process of paying a distributed, growing workforce.",
+      "id": "https://www.hrdive.com/news/sec-aims-to-pare-back-executive-comp-disclosure-rules/874767/",
+      "title": "SEC aims to pare back executive comp disclosure rules",
+      "summary": "Under a new proposal, public companies would get more flexibility to determine whether certain perks are &ldquo;integrally and directly related&rdquo; to an executive&rsquo;s job.",
       "source": "HR Dive",
-      "published": "Mon, 16 Nov 2026 05:00:00 -0500",
-      "url": "https://www.hrdive.com/spons/how-to-take-the-chaos-and-cost-out-of-cross-border-payroll/873538/"
+      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
+      "url": "https://www.hrdive.com/news/sec-aims-to-pare-back-executive-comp-disclosure-rules/874767/"
     },
     {
-      "id": "https://www.hrdive.com/news/cfo-job-descriptions-are-outdated-experts-say/874616/",
-      "title": "CFO job descriptions are outdated, experts say",
-      "summary": "With finance chiefs handling a wider range of duties, including tech rollouts, traditional job descriptions continue to fall short.",
+      "id": "https://www.hrdive.com/news/spacex-cant-force-retaliation-claim-into-arbitration-9th-circuit-holds/874759/",
+      "title": "SpaceX can\u2019t force retaliation claim into arbitration, 9th Circuit holds",
+      "summary": "The Ending Forced Arbitration Act allows the former employees to pursue in court a claim they were fired for raising concerns about sexual harassment, which they alleged founder Elon Musk normalized through social media.",
       "source": "HR Dive",
-      "published": "Fri, 13 Nov 2026 15:36:00 -0500",
-      "url": "https://www.hrdive.com/news/cfo-job-descriptions-are-outdated-experts-say/874616/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/job-applicants-say-using-ai-to-discover-investigate-companies/874628/",
-      "title": "Job applicants say they are using AI to discover, investigate companies",
-      "summary": "More than half of candidates said they declined to apply for a job after learning about a company through artificial intelligence, per a new study.",
-      "source": "HR Dive",
-      "published": "Fri, 13 Nov 2026 15:35:00 -0500",
-      "url": "https://www.hrdive.com/news/job-applicants-say-using-ai-to-discover-investigate-companies/874628/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/annual-401k-limit-pushed-to-25500-for-2027-irs/874668/",
-      "title": "Annual 401(k) limit pushed to $25,500 for 2027, IRS announces",
-      "summary": "The update comes days after the Trump administration advanced a final rule to expand access to alternative assets within workers&rsquo; defined-contribution plans.",
-      "source": "HR Dive",
-      "published": "Fri, 13 Nov 2026 15:34:00 -0500",
-      "url": "https://www.hrdive.com/news/annual-401k-limit-pushed-to-25500-for-2027-irs/874668/"
+      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
+      "url": "https://www.hrdive.com/news/spacex-cant-force-retaliation-claim-into-arbitration-9th-circuit-holds/874759/"
     }
   ]
 }
