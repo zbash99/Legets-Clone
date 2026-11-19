@@ -1,10 +1,50 @@
 {
-  "generated_at": "2026-11-18T15:12:23+00:00",
+  "generated_at": "2026-11-19T15:20:12+00:00",
   "bill_count": 0,
   "bills": [],
   "rulings": [],
   "comments": [],
   "news": [
+    {
+      "id": "https://www.hrdive.com/news/near-instant-rejections-may-have-changed-job-search-behavior/875085/",
+      "title": "Near-instant rejections may have changed job search behavior",
+      "summary": "More than three-quarters of job seekers who received a fast rejection said they didn&rsquo;t believe a human being had the time to review their resume before they were turned down.",
+      "source": "HR Dive",
+      "published": "Wed, 18 Nov 2026 15:12:00 -0500",
+      "url": "https://www.hrdive.com/news/near-instant-rejections-may-have-changed-job-search-behavior/875085/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/work-done-outside-regular-hours-may-count-toward-fmla-eligibility/875080/",
+      "title": "Work done outside regular hours may count toward FMLA eligibility",
+      "summary": "In an opinion letter, DOL also said that if accurate time records are not available, eligibility sometimes must be assumed.",
+      "source": "HR Dive",
+      "published": "Wed, 18 Nov 2026 15:12:00 -0500",
+      "url": "https://www.hrdive.com/news/work-done-outside-regular-hours-may-count-toward-fmla-eligibility/875080/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/will-more-companies-need-to-end-their-h-1b-visa-programs/875067/",
+      "title": "Will more companies need to end their H-1B visa programs?",
+      "summary": "While the math is shifting on immigration sponsorship, employers are still wary of &ldquo;handing that talent to their competitors,&rdquo; one attorney told HR Dive.",
+      "source": "HR Dive",
+      "published": "Wed, 18 Nov 2026 15:12:00 -0500",
+      "url": "https://www.hrdive.com/news/will-more-companies-need-to-end-their-h-1b-visa-programs/875067/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/dhs-4-year-cap-on-student-visa-stays-struck-down-by-federal-judge/875052/",
+      "title": "DHS\u2019 4-year cap on student visa stays struck down by federal judge",
+      "summary": "The law does not grant the agency &ldquo;such broad and open-ended authority to undermine&rdquo; the student visa program, the judge wrote.",
+      "source": "HR Dive",
+      "published": "Wed, 18 Nov 2026 15:11:00 -0500",
+      "url": "https://www.hrdive.com/news/dhs-4-year-cap-on-student-visa-stays-struck-down-by-federal-judge/875052/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/ai-transformation-workplace-talent-strategy-2027/874988/",
+      "title": "AI, rising costs top list of 2027 talent concerns, per Gartner",
+      "summary": "Gartner researchers also highlighted the importance of entry-level workers, who are increasingly at risk due to AI.",
+      "source": "HR Dive",
+      "published": "Wed, 18 Nov 2026 11:00:00 -0500",
+      "url": "https://www.hrdive.com/news/ai-transformation-workplace-talent-strategy-2027/874988/"
+    },
     {
       "id": "https://www.hrdive.com/news/employer-benefits-hold-steady-despite-unstable-macroeconomic-conditions/874945/",
       "title": "Employer benefits hold steady despite unstable macroeconomic conditions",
@@ -44,46 +84,6 @@
       "source": "HR Dive",
       "published": "Tue, 17 Nov 2026 11:54:00 -0500",
       "url": "https://www.hrdive.com/news/ai-adoption-skillbuilding-tailored-training/874885/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/iowa-district-to-settle-with-recruiting-firm-after-ex-superintendents-ice/874743/",
-      "title": "Iowa district to settle with recruiting firm after ex-superintendent\u2019s ICE arrest",
-      "summary": "The former Des Moines school leader overstayed his visa, according to ICE. In response, the district sued a firm it claimed should have prevented his hiring.",
-      "source": "HR Dive",
-      "published": "Mon, 16 Nov 2026 16:04:00 -0500",
-      "url": "https://www.hrdive.com/news/iowa-district-to-settle-with-recruiting-firm-after-ex-superintendents-ice/874743/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/pwc-critical-thinking-assessment/874778/",
-      "title": "Want to combat AI brainrot? PwC is piloting a way to do so.",
-      "summary": "Several studies indicate that workers assigned to use AI recognize its negative cognitive effects.",
-      "source": "HR Dive",
-      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
-      "url": "https://www.hrdive.com/news/pwc-critical-thinking-assessment/874778/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/feds-seek-overhaul-of-permanent-immigrant-worker-regulations/874803/",
-      "title": "Feds seek overhaul of permanent immigrant worker regulations",
-      "summary": "The sweeping update aims to give U.S. workers &ldquo;fair consideration and first access to job opportunities,&rdquo; Secretary of Labor Keith Sonderling said on Monday.",
-      "source": "HR Dive",
-      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
-      "url": "https://www.hrdive.com/news/feds-seek-overhaul-of-permanent-immigrant-worker-regulations/874803/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/sec-aims-to-pare-back-executive-comp-disclosure-rules/874767/",
-      "title": "SEC aims to pare back executive comp disclosure rules",
-      "summary": "Under a new proposal, public companies would get more flexibility to determine whether certain perks are &ldquo;integrally and directly related&rdquo; to an executive&rsquo;s job.",
-      "source": "HR Dive",
-      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
-      "url": "https://www.hrdive.com/news/sec-aims-to-pare-back-executive-comp-disclosure-rules/874767/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/spacex-cant-force-retaliation-claim-into-arbitration-9th-circuit-holds/874759/",
-      "title": "SpaceX can\u2019t force retaliation claim into arbitration, 9th Circuit holds",
-      "summary": "The Ending Forced Arbitration Act allows the former employees to pursue in court a claim they were fired for raising concerns about sexual harassment, which they alleged founder Elon Musk normalized through social media.",
-      "source": "HR Dive",
-      "published": "Mon, 16 Nov 2026 16:03:00 -0500",
-      "url": "https://www.hrdive.com/news/spacex-cant-force-retaliation-claim-into-arbitration-9th-circuit-holds/874759/"
     }
   ]
 }
