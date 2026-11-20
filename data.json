@@ -1,10 +1,50 @@
 {
-  "generated_at": "2026-11-19T15:20:12+00:00",
+  "generated_at": "2026-11-20T14:58:10+00:00",
   "bill_count": 0,
   "bills": [],
   "rulings": [],
   "comments": [],
   "news": [
+    {
+      "id": "https://www.hrdive.com/news/job-candidates-ai-usage-is-obscuring-their-viability-report-finds/875232/",
+      "title": "Job candidates\u2019 AI usage is obscuring their viability, report finds",
+      "summary": "Nine in 10 employers worry they rejected a real applicant because they mistakenly believed a resume was fake or artificial intelligence-generated, according to a new study.",
+      "source": "HR Dive",
+      "published": "Thu, 19 Nov 2026 15:36:00 -0500",
+      "url": "https://www.hrdive.com/news/job-candidates-ai-usage-is-obscuring-their-viability-report-finds/875232/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/employers-should-prepare-for-a-labor-market-shake-up-in-2027-report-finds/875221/",
+      "title": "Employers should prepare for a labor market shake-up in 2027, Indeed and Glassdoor say",
+      "summary": "Higher turnover and a need for a better leadership pipeline may be big concerns for talent leaders in the coming year, the hiring platforms predicted.",
+      "source": "HR Dive",
+      "published": "Thu, 19 Nov 2026 15:36:00 -0500",
+      "url": "https://www.hrdive.com/news/employers-should-prepare-for-a-labor-market-shake-up-in-2027-report-finds/875221/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/bipartisan-bill-aims-to-secure-more-fmla-time-for-parents-with-nicu-babies/875214/",
+      "title": "Bipartisan bill aims to secure more FMLA time for parents with NICU babies",
+      "summary": "Supporters pointed to parents having to decide between using job-protected time to stay with their preterm newborn or for bonding later.",
+      "source": "HR Dive",
+      "published": "Thu, 19 Nov 2026 15:35:00 -0500",
+      "url": "https://www.hrdive.com/news/bipartisan-bill-aims-to-secure-more-fmla-time-for-parents-with-nicu-babies/875214/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/how-to-tackle-employee-pay-cynicism/875126/",
+      "title": "How to tackle employee pay cynicism",
+      "summary": "Part of the solution is enhanced transparency &ldquo;when you&rsquo;ve got a good story to tell,&rdquo; a global rewards solution leader said.",
+      "source": "HR Dive",
+      "published": "Thu, 19 Nov 2026 11:26:00 -0500",
+      "url": "https://www.hrdive.com/news/how-to-tackle-employee-pay-cynicism/875126/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/dol-flips-independent-contractor-switch-back-with-new-final-rule/875183/",
+      "title": "DOL flips independent contractor switch back with new final rule",
+      "summary": "Secretary of Labor Keith Sonderling said the agency&rsquo;s renewed &ldquo;economic reality&rdquo; test would provide greater clarity to both workers and employers.",
+      "source": "HR Dive",
+      "published": "Thu, 19 Nov 2026 10:57:00 -0500",
+      "url": "https://www.hrdive.com/news/dol-flips-independent-contractor-switch-back-with-new-final-rule/875183/"
+    },
     {
       "id": "https://www.hrdive.com/news/near-instant-rejections-may-have-changed-job-search-behavior/875085/",
       "title": "Near-instant rejections may have changed job search behavior",
@@ -44,46 +84,6 @@
       "source": "HR Dive",
       "published": "Wed, 18 Nov 2026 11:00:00 -0500",
       "url": "https://www.hrdive.com/news/ai-transformation-workplace-talent-strategy-2027/874988/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/employer-benefits-hold-steady-despite-unstable-macroeconomic-conditions/874945/",
-      "title": "Employer benefits hold steady despite unstable macroeconomic conditions",
-      "summary": "Although costs are increasing, employers are trying to protect benefits and safeguard against worker attrition, according to a new study.",
-      "source": "HR Dive",
-      "published": "Tue, 17 Nov 2026 15:54:00 -0500",
-      "url": "https://www.hrdive.com/news/employer-benefits-hold-steady-despite-unstable-macroeconomic-conditions/874945/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/keep-calm-and-dei-on-organizations-with-a-steady-hand-at-diversity-work-shrm/874910/",
-      "title": "Keeping D&I approach \u2018steady\u2019 is linked to stronger outcomes, SHRM finds",
-      "summary": "&ldquo;Leaders can adapt how they do the work and still be clear about the commitment,&rdquo; said Carolynn Johnson of SHRM&rsquo;s Center for Inclusion &amp; Diversity.",
-      "source": "HR Dive",
-      "published": "Tue, 17 Nov 2026 15:54:00 -0500",
-      "url": "https://www.hrdive.com/news/keep-calm-and-dei-on-organizations-with-a-steady-hand-at-diversity-work-shrm/874910/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/irs-lays-out-401k-plan-autoenrollment-guidelines-set-to-begin-in-2028/874953/",
-      "title": "IRS lays out 401(k) auto-enrollment guidelines to begin in 2028",
-      "summary": "The change could increase savings by an average of $4.2 billion per year, the agency said Tuesday.",
-      "source": "HR Dive",
-      "published": "Tue, 17 Nov 2026 15:54:00 -0500",
-      "url": "https://www.hrdive.com/news/irs-lays-out-401k-plan-autoenrollment-guidelines-set-to-begin-in-2028/874953/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/rto-policies-that-prioritize-employees-work-better/874760/",
-      "title": "RTO policies that prioritize employees work better",
-      "summary": "If an employer asks workers to come into the workplace, it should make sure being there is valuable, writes Darlene Engoglia of Park Place Technologies.",
-      "source": "HR Dive",
-      "published": "Tue, 17 Nov 2026 15:53:00 -0500",
-      "url": "https://www.hrdive.com/news/rto-policies-that-prioritize-employees-work-better/874760/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/ai-adoption-skillbuilding-tailored-training/874885/",
-      "title": "Why AI skill-building is only one part of the puzzle",
-      "summary": "A Hogan Assessments report highlighted how AI adoption is not just a &ldquo;technology challenge, but also a people and workplace challenge.&rdquo;",
-      "source": "HR Dive",
-      "published": "Tue, 17 Nov 2026 11:54:00 -0500",
-      "url": "https://www.hrdive.com/news/ai-adoption-skillbuilding-tailored-training/874885/"
     }
   ]
 }
