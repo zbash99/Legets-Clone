@@ -1,10 +1,34 @@
 {
-  "generated_at": "2026-11-20T14:58:10+00:00",
+  "generated_at": "2026-11-21T14:18:24+00:00",
   "bill_count": 0,
   "bills": [],
   "rulings": [],
   "comments": [],
   "news": [
+    {
+      "id": "https://www.hrdive.com/news/career-development-top-reason-people-apply-for-and-leave-jobs/875351/",
+      "title": "Career development is the top reason people apply for and leave jobs",
+      "summary": "New studies from McLean &amp; Co. found that feedback from new employees aligned with responses from departing workers, indicating that career growth is a widespread priority.",
+      "source": "HR Dive",
+      "published": "Fri, 20 Nov 2026 16:08:00 -0500",
+      "url": "https://www.hrdive.com/news/career-development-top-reason-people-apply-for-and-leave-jobs/875351/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/week-in-review-do-monday-check-ins-prompt-sunday-scaries/875372/",
+      "title": "Week in review: Do Monday check-ins prompt Sunday scaries?",
+      "summary": "We&rsquo;re rounding up last week&rsquo;s stories, including an Internal Revenue Service regulation addressing auto-enrollment to retirement plans.",
+      "source": "HR Dive",
+      "published": "Fri, 20 Nov 2026 16:08:00 -0500",
+      "url": "https://www.hrdive.com/news/week-in-review-do-monday-check-ins-prompt-sunday-scaries/875372/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/executives-get-more-ai-training-than-other-workers-hurting-adoption/875395/",
+      "title": "Executives get more AI training than other workers, hurting adoption, report finds",
+      "summary": "The disparity may explain why some employers see a &ldquo;stalled transformation&rdquo; within their enterprises, according to researchers at Marsh.",
+      "source": "HR Dive",
+      "published": "Fri, 20 Nov 2026 16:07:00 -0500",
+      "url": "https://www.hrdive.com/news/executives-get-more-ai-training-than-other-workers-hurting-adoption/875395/"
+    },
     {
       "id": "https://www.hrdive.com/news/job-candidates-ai-usage-is-obscuring-their-viability-report-finds/875232/",
       "title": "Job candidates\u2019 AI usage is obscuring their viability, report finds",
@@ -60,30 +84,6 @@
       "source": "HR Dive",
       "published": "Wed, 18 Nov 2026 15:12:00 -0500",
       "url": "https://www.hrdive.com/news/work-done-outside-regular-hours-may-count-toward-fmla-eligibility/875080/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/will-more-companies-need-to-end-their-h-1b-visa-programs/875067/",
-      "title": "Will more companies need to end their H-1B visa programs?",
-      "summary": "While the math is shifting on immigration sponsorship, employers are still wary of &ldquo;handing that talent to their competitors,&rdquo; one attorney told HR Dive.",
-      "source": "HR Dive",
-      "published": "Wed, 18 Nov 2026 15:12:00 -0500",
-      "url": "https://www.hrdive.com/news/will-more-companies-need-to-end-their-h-1b-visa-programs/875067/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/dhs-4-year-cap-on-student-visa-stays-struck-down-by-federal-judge/875052/",
-      "title": "DHS\u2019 4-year cap on student visa stays struck down by federal judge",
-      "summary": "The law does not grant the agency &ldquo;such broad and open-ended authority to undermine&rdquo; the student visa program, the judge wrote.",
-      "source": "HR Dive",
-      "published": "Wed, 18 Nov 2026 15:11:00 -0500",
-      "url": "https://www.hrdive.com/news/dhs-4-year-cap-on-student-visa-stays-struck-down-by-federal-judge/875052/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/ai-transformation-workplace-talent-strategy-2027/874988/",
-      "title": "AI, rising costs top list of 2027 talent concerns, per Gartner",
-      "summary": "Gartner researchers also highlighted the importance of entry-level workers, who are increasingly at risk due to AI.",
-      "source": "HR Dive",
-      "published": "Wed, 18 Nov 2026 11:00:00 -0500",
-      "url": "https://www.hrdive.com/news/ai-transformation-workplace-talent-strategy-2027/874988/"
     }
   ]
 }
