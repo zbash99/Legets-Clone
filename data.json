@@ -1,10 +1,42 @@
 {
-  "generated_at": "2026-11-24T17:02:21+00:00",
+  "generated_at": "2026-11-25T16:52:29+00:00",
   "bill_count": 0,
   "bills": [],
   "rulings": [],
   "comments": [],
   "news": [
+    {
+      "id": "https://www.hrdive.com/news/cardi-b-am-i-the-drama-analysis/875706/",
+      "title": "We owe Cardi B \u2014 and all working mothers \u2014 an apology",
+      "summary": "In light of Cardi B&rsquo;s 2027 Grammy Awards nomination, HR Dive reporter Caroline Colvin revisits decade-old claims the rapper would never be successful as a working mother.",
+      "source": "HR Dive",
+      "published": "Wed, 25 Nov 2026 10:29:00 -0500",
+      "url": "https://www.hrdive.com/news/cardi-b-am-i-the-drama-analysis/875706/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/former-uber-worker-disability-bias-termination-work-from-home/875617/",
+      "title": "Former Uber worker alleges disability bias after termination following work-from-home accommodation",
+      "summary": "The worker was fired a couple weeks into her new arrangement, but Uber relied on her not following a policy she&rsquo;d never been trained on, she said.",
+      "source": "HR Dive",
+      "published": "Tue, 24 Nov 2026 15:04:00 -0500",
+      "url": "https://www.hrdive.com/news/former-uber-worker-disability-bias-termination-work-from-home/875617/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/many-companies-use-ai-but-few-pair-it-with-culture-changes-report-says/875631/",
+      "title": "Many companies use AI, but few pair it with culture changes, report says",
+      "summary": "CHROs who emphasize the connection between culture and artificial intelligence tool use were &ldquo;twice as likely to sustain superior market performance,&rdquo; per a new report.",
+      "source": "HR Dive",
+      "published": "Tue, 24 Nov 2026 15:04:00 -0500",
+      "url": "https://www.hrdive.com/news/many-companies-use-ai-but-few-pair-it-with-culture-changes-report-says/875631/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/dishonesty-and-unprotected-absences-not-fmla-use-caused-csx-to-fire-worke/875614/",
+      "title": "Dishonesty and unprotected absences, not FMLA use, caused CSX to fire workers, court rules",
+      "summary": "One worker had taken leave on Martin Luther King Jr. Day, Superbowl Sunday, Valentine&rsquo;s Day and Easter Sunday &mdash; despite previous warnings.",
+      "source": "HR Dive",
+      "published": "Tue, 24 Nov 2026 15:04:00 -0500",
+      "url": "https://www.hrdive.com/news/dishonesty-and-unprotected-absences-not-fmla-use-caused-csx-to-fire-worke/875614/"
+    },
     {
       "id": "https://www.hrdive.com/news/court-blocks-dhs-policy-limiting-international-student-training-opportuniti/875568/",
       "title": "Court blocks DHS policy limiting international student training opportunities",
@@ -52,38 +84,6 @@
       "source": "HR Dive",
       "published": "Mon, 23 Nov 2026 15:36:00 -0500",
       "url": "https://www.hrdive.com/news/dol-proposes-removing-esg-references-from-401k-rule/875505/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/trump-administration-puts-more-than-15k-contractors-on-notice-over-e-verify-compliance/875510/",
-      "title": "Trump administration puts more than 1.5K contractors on notice over E-Verify compliance",
-      "summary": "The federal government gave the firms 30 days to respond to its notice to provide proof of compliance.",
-      "source": "HR Dive",
-      "published": "Mon, 23 Nov 2026 15:35:00 -0500",
-      "url": "https://www.hrdive.com/news/trump-administration-puts-more-than-15k-contractors-on-notice-over-e-verify-compliance/875510/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/6th-circuit-upholds-jury-win-for-ohio-state-in-sexual-harassment-lawsuit/875455/",
-      "title": "6th Circuit upholds jury win for Ohio State in sexual harassment lawsuit",
-      "summary": "While the plaintiff argued the district court incorrectly instructed the jury, the 6th Circuit said she&rsquo;d failed to raise these objections at the proper time.",
-      "source": "HR Dive",
-      "published": "Mon, 23 Nov 2026 11:04:00 -0500",
-      "url": "https://www.hrdive.com/news/6th-circuit-upholds-jury-win-for-ohio-state-in-sexual-harassment-lawsuit/875455/"
-    },
-    {
-      "id": "https://www.hrdive.com/spons/ai-manager-burnout-and-workforce-mental-health-in-2027/875210/",
-      "title": "AI, manager burnout and workforce mental health in 2027",
-      "summary": "Two emerging trends for 2027: AI is changing work as manager strain takes a toll on teams.",
-      "source": "HR Dive",
-      "published": "Mon, 23 Nov 2026 05:00:00 -0500",
-      "url": "https://www.hrdive.com/spons/ai-manager-burnout-and-workforce-mental-health-in-2027/875210/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/week-in-review-do-monday-check-ins-prompt-sunday-scaries/875372/",
-      "title": "Week in review: Do Monday check-ins prompt Sunday scaries?",
-      "summary": "We&rsquo;re rounding up last week&rsquo;s stories, including an Internal Revenue Service regulation addressing auto-enrollment to retirement plans.",
-      "source": "HR Dive",
-      "published": "Fri, 20 Nov 2026 16:08:00 -0500",
-      "url": "https://www.hrdive.com/news/week-in-review-do-monday-check-ins-prompt-sunday-scaries/875372/"
     }
   ]
 }
