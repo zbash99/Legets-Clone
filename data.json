@@ -1,10 +1,34 @@
 {
-  "generated_at": "2026-11-25T16:52:29+00:00",
+  "generated_at": "2026-11-26T16:29:51+00:00",
   "bill_count": 0,
   "bills": [],
   "rulings": [],
   "comments": [],
   "news": [
+    {
+      "id": "https://www.hrdive.com/news/nvidia-and-jensen-huang-mockery-of-modern-hr/875789/",
+      "title": "\u2018I just don\u2019t know the rules anymore\u2019: Nvidia and Jensen Huang\u2019s mockery of modern HR",
+      "summary": "The scandal-ridden executive&#39;s shocking return is antithetical to everything practitioners tell themselves about how organizations should function and how leaders should behave.",
+      "source": "HR Dive",
+      "published": "Wed, 25 Nov 2026 13:06:00 -0500",
+      "url": "https://www.hrdive.com/news/nvidia-and-jensen-huang-mockery-of-modern-hr/875789/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/employers-expect-new-hires-to-have-a-willingness-to-learn/875747/",
+      "title": "Employers expect new hires to have a \u2018willingness to learn\u2019",
+      "summary": "While a growing number of organizations want to upskill existing employees, more than a third say they&rsquo;re looking for employees with &ldquo;expertise in new areas.&rdquo;",
+      "source": "HR Dive",
+      "published": "Wed, 25 Nov 2026 13:06:00 -0500",
+      "url": "https://www.hrdive.com/news/employers-expect-new-hires-to-have-a-willingness-to-learn/875747/"
+    },
+    {
+      "id": "https://www.hrdive.com/news/collective-action-rights-under-flsa-are-not-waivable-without-an-arbitration/875623/",
+      "title": "Collective action rights under FLSA are not waivable without an arbitration agreement, judge rules",
+      "summary": "The plaintiff&rsquo;s lawyer called the order &ldquo;an important decision for every worker who has been handed paperwork and told to sign away their rights before they can get a job.&rdquo;",
+      "source": "HR Dive",
+      "published": "Wed, 25 Nov 2026 13:06:00 -0500",
+      "url": "https://www.hrdive.com/news/collective-action-rights-under-flsa-are-not-waivable-without-an-arbitration/875623/"
+    },
     {
       "id": "https://www.hrdive.com/news/cardi-b-am-i-the-drama-analysis/875706/",
       "title": "We owe Cardi B \u2014 and all working mothers \u2014 an apology",
@@ -60,30 +84,6 @@
       "source": "HR Dive",
       "published": "Mon, 23 Nov 2026 15:37:00 -0500",
       "url": "https://www.hrdive.com/news/fox-allegedly-fired-news-host-with-facial-disability-viewers-mocked-her-appearance/875488/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/congress-landmark-law-protecting-pregnant-workers-unconstitutional/875528/",
-      "title": "Congress\u2019 landmark law protecting pregnant workers is unconstitutional, court holds",
-      "summary": "The decision renders the Pregnant Workers Fairness Act unenforceable against the state of Texas, but other employers must still comply with the law, observers cautioned.",
-      "source": "HR Dive",
-      "published": "Mon, 23 Nov 2026 15:36:00 -0500",
-      "url": "https://www.hrdive.com/news/congress-landmark-law-protecting-pregnant-workers-unconstitutional/875528/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/what-are-buffer-spaces-at-work-harassment/875518/",
-      "title": "What are \u2018buffer spaces\u2019 at work? Here\u2019s what HR should know.",
-      "summary": "When faced with harassment, workers may benefit from a middle ground between informal conversations and formal reporting, researchers theorized.",
-      "source": "HR Dive",
-      "published": "Mon, 23 Nov 2026 15:36:00 -0500",
-      "url": "https://www.hrdive.com/news/what-are-buffer-spaces-at-work-harassment/875518/"
-    },
-    {
-      "id": "https://www.hrdive.com/news/dol-proposes-removing-esg-references-from-401k-rule/875505/",
-      "title": "DOL proposes removing ESG references from 401(k) rule",
-      "summary": "The proposed rule would also seek to place a &ldquo;heightened focus&rdquo; on fund managers&rsquo; shareholder engagement and proxy voting activities.",
-      "source": "HR Dive",
-      "published": "Mon, 23 Nov 2026 15:36:00 -0500",
-      "url": "https://www.hrdive.com/news/dol-proposes-removing-esg-references-from-401k-rule/875505/"
     }
   ]
 }
